@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="850.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.s_gestio_hotel.PersonaController">
+   <children>
+      <TabPane fx:id="tabPane" layoutY="354.0" prefHeight="307.0" prefWidth="850.0" tabClosingPolicy="UNAVAILABLE">
+        <tabs>
+          <Tab fx:id="pagClient" text="Client">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="267.0" prefWidth="850.0">
+                     <children>
+                        <TextField fx:id="id_client" editable="false" layoutX="78.0" layoutY="37.0" />
+                        <Text layoutX="14.0" layoutY="57.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ID Client" />
+                        <Text layoutX="25.0" layoutY="124.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Data registre" />
+                        <DatePicker fx:id="data_registre" disable="true" layoutX="115.0" layoutY="106.0" />
+                        <Text layoutX="30.0" layoutY="168.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tipus client" />
+                        <TextField fx:id="targeta_credit" layoutX="159.0" layoutY="199.0" />
+                        <Text layoutX="29.0" layoutY="217.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Targeta de credit" />
+                        <ListView fx:id="reserves" layoutX="552.0" layoutY="63.0" prefHeight="200.0" prefWidth="200.0" />
+                        <Text layoutX="558.0" layoutY="48.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Reserves" />
+                        <Button layoutX="666.0" layoutY="31.0" mnemonicParsing="false" onAction="#switchToReserva" text="Visualitzar" />
+                        <ComboBox fx:id="tip_client" layoutX="154.0" layoutY="150.0" prefWidth="150.0" />
+                     </children></AnchorPane>
+            </content>
+          </Tab>
+          <Tab fx:id="pagEmpleat" text="Empleat">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <TextField fx:id="id_empleat" editable="false" layoutX="100.0" layoutY="34.0" />
+                        <TextField fx:id="lloc_feina" layoutX="93.0" layoutY="80.0" />
+                        <Text layoutX="14.0" layoutY="52.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ID Empleat" />
+                        <Text layoutX="18.0" layoutY="98.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Lloc feina" />
+                        <Text layoutX="16.0" layoutY="169.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Data de contratacio" />
+                        <DatePicker fx:id="data_contratacio" layoutX="153.0" layoutY="151.0" />
+                        <TextField fx:id="salariBrut" layoutX="110.0" layoutY="201.0" />
+                        <Text layoutX="16.0" layoutY="219.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Salari brut" />
+                        <TextField fx:id="estatLaboral" layoutX="119.0" layoutY="244.0" />
+                        <Text layoutX="16.0" layoutY="262.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Estat Laboral" />
+                        <ListView fx:id="tasques" layoutX="506.0" layoutY="38.0" prefHeight="200.0" prefWidth="200.0" />
+                        <Text layoutX="481.0" layoutY="28.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tasques" />
+                        <Button fx:id="cre_assg_proc_fet" layoutX="572.0" layoutY="10.0" mnemonicParsing="false" onAction="#pujarTasca" text="Pujar tasca" />
+                        <ComboBox fx:id="tasquesNoSel" layoutX="578.0" layoutY="244.0" prefWidth="150.0" />
+                        <Text layoutX="493.0" layoutY="267.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Afegir tasca" />
+                        <Button fx:id="cre_assg_proc_fet1" layoutX="741.0" layoutY="244.0" mnemonicParsing="false" onAction="#afegirTasca" text="Afegir" />
+                        <Button fx:id="cre_assg_proc_fet11" layoutX="723.0" layoutY="119.0" mnemonicParsing="false" onAction="#switchToTasca" text="Veure Tasca" />
+                     </children></AnchorPane>
+            </content>
+          </Tab>
+        </tabs>
+      </TabPane>
+      <Button layoutX="21.0" layoutY="21.0" mnemonicParsing="false" onAction="#switchToInici" text="Sortir" />
+      <TextField fx:id="ID" editable="false" layoutX="96.0" layoutY="64.0" />
+      <TextField fx:id="nom" layoutX="96.0" layoutY="113.0" />
+      <TextField fx:id="adresa" layoutX="90.0" layoutY="224.0" />
+      <TextField fx:id="DNI" layoutX="397.0" layoutY="76.0" />
+      <Text layoutX="69.0" layoutY="82.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ID" />
+      <Text layoutX="55.0" layoutY="131.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nom" />
+      <Text layoutX="34.0" layoutY="242.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Adreça" />
+      <Text layoutX="365.0" layoutY="94.0" strokeType="OUTSIDE" strokeWidth="0.0" text="DNI" />
+      <TextField fx:id="telefon" layoutX="399.0" layoutY="126.0" />
+      <TextField fx:id="email" layoutX="399.0" layoutY="231.0" />
+      <Text layoutX="341.0" layoutY="144.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Telefon" />
+      <Text layoutX="278.0" layoutY="192.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Data de naixement" />
+      <Text layoutX="343.0" layoutY="249.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Email" />
+      <DatePicker fx:id="data_naixement" layoutX="401.0" layoutY="176.0" />
+      <ListView fx:id="persones" layoutX="608.0" layoutY="68.0" onMouseClicked="#touchLVPersones" prefHeight="200.0" prefWidth="200.0" />
+      <Text layoutX="614.0" layoutY="53.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Persones" />
+      <CheckBox fx:id="CBempleat" layoutX="31.0" layoutY="327.0" mnemonicParsing="false" onAction="#selectCBEmpleat" text="Empleat" />
+      <CheckBox fx:id="CBclient" layoutX="31.0" layoutY="299.0" mnemonicParsing="false" onAction="#selectCBClient" text="Client" />
+      <Text layoutX="34.0" layoutY="285.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Rols" />
+      <Button layoutX="608.0" layoutY="279.0" mnemonicParsing="false" onAction="#treureSeleccio" text="Treure seleccio" />
+      <Button fx:id="afg_mod_per" layoutX="365.0" layoutY="668.0" mnemonicParsing="false" onAction="#crearModificarPersona" text="Crear / Modificar" />
+      <TextField fx:id="cognom" layoutX="89.0" layoutY="164.0" />
+      <Text layoutX="29.0" layoutY="181.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Cognom" />
+   </children>
+</AnchorPane>

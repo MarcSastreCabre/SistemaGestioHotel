@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="850.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.s_gestio_hotel.ReservaController">
+   <children>
+      <Text layoutX="77.0" layoutY="115.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ID Reserva" />
+      <TextField fx:id="id_reserva" editable="false" layoutX="159.0" layoutY="98.0" />
+      <Text layoutX="365.0" layoutY="115.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Client" />
+      <Text layoutX="602.0" layoutY="86.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Reserves" />
+      <DatePicker fx:id="dataReserva" layoutX="142.0" layoutY="185.0" />
+      <DatePicker fx:id="dataInici" layoutX="142.0" layoutY="232.0" onAction="#calcularPreu" />
+      <DatePicker fx:id="dataFi" layoutX="142.0" layoutY="280.0" onAction="#calcularPreu" />
+      <Text layoutX="50.0" layoutY="202.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Data reserva" />
+      <Text layoutX="50.0" layoutY="248.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Data inici" />
+      <Text layoutX="50.0" layoutY="297.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Data fi" />
+      <Text layoutX="36.0" layoutY="373.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tipus reserva" />
+      <Text layoutX="47.0" layoutY="424.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tipus iva" />
+      <TextField fx:id="tipus_iva" layoutX="129.0" layoutY="407.0" onAction="#calcularPreu" onKeyReleased="#calcularPreu" />
+      <Text layoutX="50.0" layoutY="484.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Preu total" />
+      <TextField fx:id="preu_total" editable="false" layoutX="132.0" layoutY="467.0" />
+      <Text layoutX="50.0" layoutY="558.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Habitacio" />
+      <Button fx:id="crear_gen_veu_fact" layoutX="494.0" layoutY="522.0" mnemonicParsing="false" onAction="#switchToFacturaAndCreateFact" text="Crear reserva / " />
+      <ComboBox fx:id="client" layoutX="434.0" layoutY="98.0" onAction="#cambiarClient" prefWidth="150.0" />
+      <ComboBox fx:id="habitacio" layoutX="140.0" layoutY="541.0" onAction="#calcularPreu" prefWidth="150.0" />
+      <ComboBox fx:id="tipusReserva" layoutX="143.0" layoutY="356.0" onAction="#calcularPreu" prefWidth="150.0" />
+      <ListView fx:id="reserves" layoutX="605.0" layoutY="98.0" onMouseClicked="#reservesSelected" prefHeight="200.0" prefWidth="200.0" />
+      <Button layoutX="434.0" layoutY="62.0" mnemonicParsing="false" onAction="#switchToClient" text="Visualitzar client" />
+      <Button layoutX="67.0" layoutY="22.0" mnemonicParsing="false" onAction="#switchToInici" text="Inici" />
+      <Button layoutX="686.0" layoutY="304.0" mnemonicParsing="false" onAction="#treureSeleccio" text="Treure Seleccio" />
+      <Button fx:id="mk_edt_res" layoutX="395.0" layoutY="635.0" mnemonicParsing="false" onAction="#crearEditarReserva" text="Crear / Editar reserva" />
+   </children>
+</AnchorPane>

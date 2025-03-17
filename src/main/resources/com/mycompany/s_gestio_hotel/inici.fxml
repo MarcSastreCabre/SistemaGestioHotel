@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="850.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.s_gestio_hotel.IniciController">
+   <children>
+      <Label layoutX="390.0" layoutY="14.0" text="Hotel">
+         <font>
+            <Font size="36.0" />
+         </font>
+      </Label>
+      <Button layoutX="166.0" layoutY="113.0" mnemonicParsing="false" onAction="#editPersona" text="Editar Persona" />
+      <Button layoutX="29.0" layoutY="113.0" mnemonicParsing="false" onAction="#switchToPersona" text="Crear Persona" />
+      <Button layoutX="453.0" layoutY="119.0" mnemonicParsing="false" onAction="#editReserva" text="Editar reserva" />
+      <Button layoutX="314.0" layoutY="119.0" mnemonicParsing="false" onAction="#switchToReserva" text="Crear reserva" />
+      <Button layoutX="737.0" layoutY="119.0" mnemonicParsing="false" onAction="#editTasca" text="Editar tasca" />
+      <Button layoutX="589.0" layoutY="119.0" mnemonicParsing="false" onAction="#switchToTasca" text="Crear tasca" />
+      <ListView fx:id="llPersones" layoutX="29.0" layoutY="151.0" onMouseClicked="#filtrarPersontaAut" prefHeight="283.0" prefWidth="250.0" />
+      <ListView fx:id="llReserves" layoutX="313.0" layoutY="151.0" onMouseClicked="#filtrarReservaAut" prefHeight="283.0" prefWidth="250.0" />
+      <ListView fx:id="llTasques" layoutX="589.0" layoutY="151.0" onMouseClicked="#filtrarTascaAut" prefHeight="283.0" prefWidth="250.0" />
+      <Button layoutX="354.0" layoutY="614.0" mnemonicParsing="false" onAction="#treureSeleccions" text="Treure seleccions" />
+      <Button fx:id="filtarPersona" layoutX="113.0" layoutY="521.0" mnemonicParsing="false" onAction="#filtrarPersona" text="Filtrar" />
+      <Button fx:id="filtarReserva" layoutX="392.0" layoutY="521.0" mnemonicParsing="false" onAction="#filtrarReserva" text="Filtrar" />
+      <Button fx:id="filtarTasca" layoutX="680.0" layoutY="521.0" mnemonicParsing="false" onAction="#filtrarTasca" text="Filtrar" />
+      <CheckBox fx:id="filtratAut" layoutX="73.0" layoutY="587.0" mnemonicParsing="false" onAction="#ocultarSelectors" text="Filtrat Automatic" />
+   </children>
+</AnchorPane>
