@@ -38,15 +38,15 @@ public class Model {
         return reserves;
     }
 
-    public Map<Integer,Object> getPersones() {
+    public static Map<Integer,Object> getPersones() {
         return persones;
     }
 
-    public Map<Integer, Object> getClient() {
+    public static Map<Integer, Object> getClient() {
         return client;
     }
 
-    public Map<Integer, Object> getEmpleat() {
+    public static Map<Integer, Object> getEmpleat() {
         return empleat;
     }
 
@@ -138,6 +138,4 @@ public class Model {
     public static Map<Integer, Habitacio> getHabitacions() {
         return habitacions;
     }
-    
-    
 }

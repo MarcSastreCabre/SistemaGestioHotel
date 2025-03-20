@@ -95,7 +95,7 @@ public class Habitacio {
 
     @Override
     public String toString() {
-        return "Habitacio nº" + numero_habitacio;
+        return "nº" + numero_habitacio+" - "+tipus;
     }
     
     

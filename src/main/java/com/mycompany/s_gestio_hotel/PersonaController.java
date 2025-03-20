@@ -28,6 +28,7 @@ import javafx.scene.control.ComboBox;
 public class PersonaController {
     Model model;
     private static Object persona;
+    GesitioDades gd = new GesitioDades();
     //@FXML
     /*private void switchToPrimary() throws IOException {
         App.setRoot("inici");
@@ -289,7 +290,7 @@ public class PersonaController {
     @FXML
     private void crearModificarPersona() throws SQLException{
         System.out.println("        HOla");
-        GesitioDades gd = new GesitioDades();
+        
         //if(persones.getSelectionModel().getSelectedIndex() == -1){
             //Persona p = new Persona(Integer.parseInt(ID.getText()), nom.getText(), cognom.getText(), adresa.getText(), DNI.getText(), Integer.parseInt(telefon.getText()), Date.valueOf(data_naixement.getValue()), email.getText());
             //Date.valueOf(LocalDate.MAX)
@@ -433,7 +434,7 @@ public class PersonaController {
         //}
     }
     @FXML
-    private void afegirTasca(){
+    private void afegirTasca() throws SQLException{
         Object t = tasquesNoSel.getSelectionModel().getSelectedItem();
         if(persona != null && persona.getClass() != Client.class && t != null && t.getClass() == Tasca.class){
             Empleat e = model.getEmpleat(persona);
@@ -443,6 +444,7 @@ public class PersonaController {
             e.afegirTasca(tas, "Pendent", persona);
             tasques.setItems(e.getTascaFiltObsList()); // optimitzar
             tasquesNoSel.setItems(FXCollections.observableArrayList(e.tasquesNoSeleccionades()));
+            gd.afegeixEmpleatTasca(e, tas, "Pendent");
             
         }
     }
@@ -497,8 +499,11 @@ public class PersonaController {
         if(o != null && o.getClass() == Tasca.class && (persona.getClass() == Empleat.class || persona.getClass() == ClientEmpleat.class)){
             System.out.println("Hola");
             Tasca t = (Tasca) o;
-            model.getEmpleat(persona).pujarTasca(t, persona);
+            String estAct = model.getEmpleat(persona).pujarTasca(t, persona);
+            gd.modificarEmpleatTasca(model.getEmpleat(persona), t, estAct);
+            gd.modificarEstatTasca(t);
         }
+        tasques.setItems(model.getEmpleat(persona).getTascaFiltObsList());
     }
 
 }

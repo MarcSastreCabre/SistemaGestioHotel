@@ -75,9 +75,14 @@ public class Empleat extends Persona {
     
     public ObservableList<Object> getTascaFiltObsList(){
         LinkedList<Object> t = new LinkedList<>();
-        for (String value : tasca_est.keySet()) {
-            t.add("     -"+value);
-            t.addAll(tasca_est.get(value));
+        
+        String[] estats = {"Finalitzat", "En curs", "Pendent"};
+        
+        for (int i = 0; i < 3; i++){
+            if(tasca_est.containsKey(estats[i])){
+                t.add("     -"+estats[i]);
+                t.addAll(tasca_est.get(estats[i]));
+            }
         }
         return FXCollections.observableArrayList(t);
     }
@@ -127,24 +132,27 @@ public class Empleat extends Persona {
         return hash;
     }
 
-    public void pujarTasca(Tasca t, Object empl){// normalment es faria amb this pero com que tinc el client empleat ho haig de duplicar
+    public String pujarTasca(Tasca t, Object empl){// normalment es faria amb this pero com que tinc el client empleat ho haig de duplicar
         String[] estats = {"Pendent", "En curs", "Finalitzat"};
         int i = 0;
         boolean tascaTrovada = false;
         while (i<2) {
             if(tasca_est.containsKey(estats[i]) && tasca_est.get(estats[i]).contains(t)){
                 tasca_est.get(estats[i]).remove(t);
-                t.getEmpl_tasca_est().get(estats[i]).remove(t);
+                t.getEmpl_tasca_est().get(estats[i]).remove(empl);
                 tascaTrovada = true;
+            i++;
                 break;
             }
             i++;
-            if(tascaTrovada){
-                tasca_est.get(estats[i]).add(t);
-                t.getEmpl_tasca_est().get(estats[i]).add(t);
-            }
         }
-            
+        if(tascaTrovada){
+            tasca_est.putIfAbsent(estats[i], new LinkedList<>());
+            tasca_est.get(estats[i]).add(t);
+            t.getEmpl_tasca_est().putIfAbsent(estats[i], new LinkedList<>());
+            t.getEmpl_tasca_est().get(estats[i]).add(empl);
+        }
+        return estats[i];
     }
 
     @Override
@@ -177,9 +185,9 @@ public class Empleat extends Persona {
         return t;
     }
     public void afegirTasca(Tasca t, String est, Object eOce){
-        /*tasca_est.putIfAbsent(est, new LinkedList<>());
+        tasca_est.putIfAbsent(est, new LinkedList<>());
         tasca_est.get(est).add(t);
         t.getEmpl_tasca_est().putIfAbsent(est, new LinkedList<>());
-        t.getEmpl_tasca_est().get(est).add(eOce);*/
+        t.getEmpl_tasca_est().get(est).add(eOce);
     }
 }

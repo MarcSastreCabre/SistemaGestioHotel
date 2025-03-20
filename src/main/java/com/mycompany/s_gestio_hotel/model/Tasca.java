@@ -7,6 +7,7 @@ package com.mycompany.s_gestio_hotel.model;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.sql.Date;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
@@ -62,12 +63,22 @@ public class Tasca {// tornar a fer
         return ret;
     }
     public ArrayList<Object> getEmpl_tasca_est_val_est() {
+        String[] estats = {"Finalitzat", "En curs", "Pendent"};
         ArrayList<Object> ret = new ArrayList<>();
-        for (String clau: empl_tasca_est.keySet()) {
-            ret.add("   -"+clau);
-            for (Object object : empl_tasca_est.get(clau)) {
-                ret.add(object);
+        int[] itemsEstats = new int[3];
+        for (int i = 0; i < 3; i++) {
+            if( empl_tasca_est.containsKey(estats[i]) && !empl_tasca_est.get(estats[i]).isEmpty()){
+                ret.add("   -"+estats[i]);
+                ret.addAll(empl_tasca_est.get(estats[i]));
+                itemsEstats[i]++;
             }
+        }
+        if(itemsEstats[1] != 0 || (itemsEstats[0] != 0 && itemsEstats[2] != 0)){
+            estat = estats[1];
+        } else if(itemsEstats[2] != 0){
+            estat = estats[2];
+        } else {
+            estat = estats[0];
         }
         return ret;
     }
@@ -168,5 +179,23 @@ public class Tasca {// tornar a fer
         final Tasca other = (Tasca) obj;
         return this.id_tasca == other.id_tasca;
     }
+    
+    public LinkedList<Object> empleatsNoSeleccionats(){
+        LinkedList<Object> e = new LinkedList<>(Model.getEmpleat().values());
+        for (LinkedList<Object> value : empl_tasca_est.values()) {
+            e.removeAll(value);
+        }
+        for (Object object : e) {
+            System.out.println("    Res: "+e);
+        }
+        return e;
+    }
+
+    public void modificarAtribusTasca(String descripcio, Date data_execusio) {
+        this.descripcio = descripcio;
+        this.data_execusio = data_execusio;
+    }
+    
+    
     
 }

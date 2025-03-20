@@ -337,6 +337,48 @@ public class GesitioDades {
         return ok;
     }
     
+    public boolean afegeixTasca(Tasca t) throws SQLException {
+        boolean ok = false;
+        Connection connection = new Connexio().connecta();
+        String sql = "INSERT INTO Tasca VALUES (?,?,?,?,?)";
+        PreparedStatement ordre = connection.prepareStatement(sql);
+        try {
+            ordre.setInt(1, t.getId_tasca());
+            ordre.setString(2, t.getDescripcio());
+            ordre.setDate(3, t.getData_creacio());
+            ordre.setDate(4, t.getData_execusio());
+            ordre.setString(5, t.getEstat());
+            
+            ordre.executeUpdate();
+            ok = true;
+
+        } catch (SQLException throwables) {
+            System.out.println("Error:" + throwables.getMessage());
+        }
+
+        return ok;
+    }
+    
+    public boolean afegeixEmpleatTasca(Empleat e, Tasca t, String estat) throws SQLException {
+        boolean ok = false;
+        Connection connection = new Connexio().connecta();
+        String sql = "INSERT INTO Empleat_Tasca VALUES (?,?,?)";
+        PreparedStatement ordre = connection.prepareStatement(sql);
+        try {
+            ordre.setInt(1, e.getId_empleat());
+            ordre.setInt(2, t.getId_tasca());
+            ordre.setString(3, estat);
+            
+            ordre.executeUpdate();
+            ok = true;
+
+        } catch (SQLException throwables) {
+            System.out.println("Error:" + throwables.getMessage());
+        }
+
+        return ok;
+    }
+    
     public boolean modificarPersona(Persona p){
         boolean ok = false;
         String sql = "UPDATE Persona SET nom=?,cognom=?,adresa=?,telefon=?,data_naixement=?,email=? where id_persona=?";
@@ -440,7 +482,72 @@ public class GesitioDades {
             }
         }
                 return ok;
-    }  
+    }    
+    public boolean modificarTasca(Tasca t){
+        boolean ok = false;
+        String sql = "UPDATE Tasca SET descripcio =?,data_execusio =? where id_tasca=?";
+        Connection connection = new Connexio().connecta();
+        try {
+            PreparedStatement ordre = connection.prepareStatement(sql);
+            ordre.setString(1, t.getDescripcio());
+            ordre.setDate(2, t.getData_execusio());
+            ordre.setInt(3, t.getId_tasca());
+            ordre.executeUpdate();
+            ok = true;
+        } catch (SQLException e) {
+            System.out.println("Error SQL:" + e.getMessage() +" Modificar Reserva");
+        } finally {
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                System.out.println("Error:" + e.getMessage() +" Modificar Reserva");
+            }
+        }
+                return ok;
+    }      
+    public boolean modificarEstatTasca(Tasca t){
+        boolean ok = false;
+        String sql = "UPDATE Tasca SET estat =? where id_tasca=?";
+        Connection connection = new Connexio().connecta();
+        try {
+            PreparedStatement ordre = connection.prepareStatement(sql);
+            ordre.setString(1, t.getEstat());
+            ordre.setInt(2, t.getId_tasca());
+            ordre.executeUpdate();
+            ok = true;
+        } catch (SQLException e) {
+            System.out.println("Error SQL:" + e.getMessage() +" Modificar Reserva");
+        } finally {
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                System.out.println("Error:" + e.getMessage() +" Modificar Reserva");
+            }
+        }
+                return ok;
+    }      
+    public boolean modificarEmpleatTasca(Empleat em, Tasca t, String estat){
+        boolean ok = false;
+        String sql = "UPDATE Empleat_Tasca SET estat =? where id_empleat=? and id_tasca=?";
+        Connection connection = new Connexio().connecta();
+        try {
+            PreparedStatement ordre = connection.prepareStatement(sql);
+            ordre.setString(1, estat);
+            ordre.setInt(2, em.getId_empleat());
+            ordre.setInt(3, t.getId_tasca());
+            ordre.executeUpdate();
+            ok = true;
+        } catch (SQLException e) {
+            System.out.println("Error SQL:" + e.getMessage() +" EmpleatTasca ");
+        } finally {
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                System.out.println("Error:" + e.getMessage() +" EmpleatTasca");
+            }
+        }
+                return ok;
+    }
     public boolean afegirFacturaReserva(Reserva r){
         boolean ok = false;
         String sql = "UPDATE Reserva SET  id_factura=? where id_reserva=?";
