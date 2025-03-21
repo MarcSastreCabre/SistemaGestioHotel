@@ -179,7 +179,7 @@ public class ReservaController {
                 FacturaController.setFactura(reserva.getFactura());
                 App.setRoot("factura");
             } else{                        //(int id_factura, Date data_emisio, String metode_pagament, double baseimposable, int iva, double total)
-                FacturaController.setFactura(new Factura(reserva.getId_reserva(), Date.valueOf(LocalDate.now()), null, 0, Integer.parseInt(tipus_iva.getText()), Double.parseDouble(preu_total.getText().replace(",", "."))));
+                FacturaController.setFactura(new Factura(reserva.getId_reserva(), Date.valueOf(LocalDate.now()), null, Double.parseDouble(preu_total.getText().replace(",", "."))/1+Integer.parseInt(tipus_iva.getText()), Integer.parseInt(tipus_iva.getText()), Double.parseDouble(preu_total.getText().replace(",", "."))));
                 FacturaController.setReserva(reserva);
                 App.setRoot("factura");
             }
@@ -197,20 +197,29 @@ public class ReservaController {
             //(int id_reserva, Date data_reserva, Date data_inici, Date data_fi, String tipus_reserva, int tipus_iva, double preu_total_reserva, int id_client, Factura factura)
             Reserva r = new Reserva(Integer.parseInt(id_reserva.getText()), Date.valueOf(dataReserva.getValue()), Date.valueOf(dataInici.getValue()), Date.valueOf(dataFi.getValue()), tipusReserva.getSelectionModel().getSelectedItem().toString(), Integer.parseInt(tipus_iva.getText()), Double.parseDouble(preu_total.getText().replace(",", ".")), c.getId_client(), h.getId_habitacio(), null);
             //c.getReserves().add(r);
-            if(reserves.getSelectionModel().getSelectedIndex() != -1){
-                gd.modificarReserva(r);
-                c.getReserves().remove(r);
-                model.getReserves().remove(r);
-                System.out.println("        Hola");
-            } else{
-                gd.afegeixReserva(r);
+            if(!model.getReserves().contains(r)){
+                if(reserves.getSelectionModel().getSelectedIndex() != -1){
+                    gd.modificarReserva(r);
+                    c.getReserves().remove(r);
+                    model.getReserves().remove(r);
+                    System.out.println("        Hola");
+                } else{
+                    gd.afegeixReserva(r);
+                }
+                c.getReserves().add(r);
+                model.getReserves().add(r);
+                reserves.setItems(FXCollections.observableArrayList(c.getReserves()));
+                reserves.getSelectionModel().select(r);
+                reserva = r;
+                System.out.println(r);
+            } else {
+                System.out.println("        Error la reserva ja existeix"+model.getReserves());
+                for (Reserva reserve : model.getReserves()) {
+                    if(reserve.equals(r)){
+                        System.out.println("La reserva es: "+reserve);
+                    }
+                }
             }
-            c.getReserves().add(r);
-            model.getReserves().add(r);
-            reserves.setItems(FXCollections.observableArrayList(c.getReserves()));
-            reserves.getSelectionModel().select(r);
-            reserva = r;
-            System.out.println(r);
         }
     }
     

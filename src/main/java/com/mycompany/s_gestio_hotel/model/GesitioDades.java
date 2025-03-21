@@ -84,7 +84,7 @@ public class GesitioDades {
                 int id_fact = resultSet.getInt(10);
                 System.out.println("        Valor nulo: "+id_fact);
                 Factura f;
-                if(resultSet.getInt(10) == 0){
+                if(id_fact == 0){
                     f = null;
                 } else {
                     f = llistarFactura(id_fact);

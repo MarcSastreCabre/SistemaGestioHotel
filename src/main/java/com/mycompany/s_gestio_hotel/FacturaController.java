@@ -80,6 +80,7 @@ public class FacturaController {
             reserva.setFactura(factura);
             // pujar a base de dades
             gd.afegeixFactura(factura);
+            gd.afegirFacturaReserva(reserva);
             metode_pagament.setDisable(true);
             crearFact.setVisible(false);
         }

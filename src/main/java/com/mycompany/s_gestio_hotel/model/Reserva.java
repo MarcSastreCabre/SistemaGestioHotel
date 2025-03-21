@@ -143,7 +143,23 @@ public class Reserva {
             return false;
         }
         final Reserva other = (Reserva) obj;
-        return this.id_reserva == other.id_reserva;
+        if(this.id_reserva == other.id_reserva){
+            return true;
+        }
+        if(this.id_habitacio == other.id_habitacio){
+            /*if(this.data_fi.equals(other.data_fi) || this.data_inici.equals(other.data_inici)){
+                System.out.println("Falla en el 1");
+                return true;
+            } else if(!(this.data_fi.after(other.data_inici)|| this.data_fi.equals(other.data_inici))){
+                System.out.println("Falla en el 2");
+                return true;
+                
+            }else if(!(other.data_fi.after(this.data_inici)|| other.data_fi.equals(this.data_inici))){
+                System.out.println("Falla en el 3");
+                return true;
+            }*/
+        }
+        return false;
     }
 
     public static int getLastIdReserva() {

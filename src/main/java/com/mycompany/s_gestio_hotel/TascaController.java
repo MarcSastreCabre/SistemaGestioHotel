@@ -86,12 +86,13 @@ public class TascaController {
     }
     
     private void netejarTasca(){
-        id_tasca.clear();
+        id_tasca.setText(""+Tasca.getNextId());
         descripcio.clear();
         dataCreacio.setValue(LocalDate.now());
         dataExecucio.setValue(null);
-        estat.getSelectionModel().clearSelection();
         tasques.getSelectionModel().clearSelection();
+        estat.getSelectionModel().select("Pendent");
+        empleats.setItems(null);
         //empleats.setItems(FXCollections.observableArrayList(tasca.getEmpl_tasca_est_val_est()));// s'ha de modificar perque surti els empleats que han completat la tasca per ordre
         //empleats.setItems(model.filtrarTascaOEmpleat(tasca.getEmpl_tasca_est()));
     }

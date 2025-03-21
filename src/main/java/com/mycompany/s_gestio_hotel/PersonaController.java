@@ -397,7 +397,9 @@ public class PersonaController {
 
                         if(persones.getSelectionModel().getSelectedIndex() == -1){
                             if(model.getPersones().containsValue(e)){
+                                System.out.println("El empleat existeix");
                                 return;
+                                
                             }
                             gd.afegeixPersona(e);
                             gd.afegeixEmpleats(e);
