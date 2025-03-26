@@ -22,7 +22,7 @@ public class ClientEmpleat{
 
     @Override
     public String toString() {
-        return "Client i Empleat" + ' '+client.getId_persona();
+        return "Client i Empleat" + ' '+client.getId_persona()+' '+client.getNom()+' '+client.getCognom();
     }
 
     public Client getClient() {

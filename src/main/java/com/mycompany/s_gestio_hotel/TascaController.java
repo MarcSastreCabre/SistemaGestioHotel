@@ -116,9 +116,9 @@ public class TascaController {
     private void afegirEmpleat() throws SQLException{
         if(empleatsNoSel.getSelectionModel().getSelectedIndex() != -1){
             Object e =  empleatsNoSel.getSelectionModel().getSelectedItem();
-            model.getEmpleat(e).afegirTasca(tasca, "Pendent", e);
+            model.convertEmpleat(e).afegirTasca(tasca, "Pendent", e);
             reCargarTasca();
-            gd.afegeixEmpleatTasca(model.getEmpleat(e), tasca, "Pendent");
+            gd.afegeixEmpleatTasca(model.convertEmpleat(e), tasca, "Pendent");
         }
     }
     
@@ -127,9 +127,9 @@ public class TascaController {
         if(empleats.getSelectionModel().getSelectedIndex() != -1 ){
             Object e =  empleats.getSelectionModel().getSelectedItem();
             if(e.getClass() != String.class){
-            String estAct = model.getEmpleat(e).pujarTasca(tasca, e);
+            String estAct = model.convertEmpleat(e).pujarTasca(tasca, e);
             reCargarTasca();
-            gd.modificarEmpleatTasca(model.getEmpleat(e), tasca, estAct);
+            gd.modificarEmpleatTasca(model.convertEmpleat(e), tasca, estAct);
             gd.modificarEstatTasca(tasca);
             }
         }

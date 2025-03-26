@@ -207,10 +207,10 @@ public class GesitioDades {
                 t.getEmpl_tasca_est().putIfAbsent(resultSet.getString(3), new LinkedList<>());
                 
                 System.out.println(resultSet.getInt(1)+"    "+resultSet.getInt(2)+"     "+resultSet.getString(3));
-                model.getEmpleat(e).getTasca_est().putIfAbsent(resultSet.getString(3), new LinkedList<>());
+                model.convertEmpleat(e).getTasca_est().putIfAbsent(resultSet.getString(3), new LinkedList<>());
                 System.out.println("        Tasca "+t+"     Empleat     "+e);
                 t.getEmpl_tasca_est().get(resultSet.getString(3)).add(e);
-                model.getEmpleat(e).getTasca_est().get(resultSet.getString(3)).add(t);
+                model.convertEmpleat(e).getTasca_est().get(resultSet.getString(3)).add(t);
             }
 
             connection.close();

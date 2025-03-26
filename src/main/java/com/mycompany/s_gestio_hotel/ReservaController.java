@@ -97,7 +97,7 @@ public class ReservaController {
         Object o = model.getClient().get(reserva.getId_client());
         client.getSelectionModel().select(o);
 
-        reserves.setItems(FXCollections.observableArrayList(model.getClient(o).getReserves()));
+        reserves.setItems(FXCollections.observableArrayList(model.convertClient(o).getReserves()));
         
         //
         dataReserva.setValue(reserva.getData_reserva().toLocalDate());
@@ -119,7 +119,7 @@ public class ReservaController {
         if(reserves.getSelectionModel().getSelectedIndex() != -1){
             netejarCamps();
         }
-        reserves.setItems(FXCollections.observableArrayList(model.getClient(client.getSelectionModel().getSelectedItem()).getReserves()));
+        reserves.setItems(FXCollections.observableArrayList(model.convertClient(client.getSelectionModel().getSelectedItem()).getReserves()));
         reserva = null;
     }
     @FXML
@@ -190,7 +190,7 @@ public class ReservaController {
     private void crearEditarReserva() throws SQLException{
         if(validarReserva()){
             GesitioDades gd = new GesitioDades();
-            Client c = model.getClient(client.getSelectionModel().getSelectedItem());
+            Client c = model.convertClient(client.getSelectionModel().getSelectedItem());
             Habitacio h = (Habitacio) habitacio.getSelectionModel().getSelectedItem();
                     
             

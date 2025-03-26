@@ -108,7 +108,7 @@ public class Model {
         return FXCollections.observableArrayList(retList);
     }
     
-    public Empleat getEmpleat(Object o){
+    public Empleat convertEmpleat(Object o){
         if(Empleat.class == o.getClass()){
             return (Empleat) o;
         } else if(ClientEmpleat.class == o.getClass()){
@@ -117,7 +117,7 @@ public class Model {
         return null;
     }
     
-    public Client getClient(Object o){
+    public Client convertClient(Object o){
         if(Client.class == o.getClass()){
             return (Client) o;
         } else if(ClientEmpleat.class == o.getClass()){

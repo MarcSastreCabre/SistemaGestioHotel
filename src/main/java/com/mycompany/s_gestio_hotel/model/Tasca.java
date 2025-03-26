@@ -24,17 +24,7 @@ public class Tasca {// tornar a fer
     private String estat;
     private Map<String, LinkedList<Object>> empl_tasca_est;
     private static int nextId;
-    //private LinkedList<Object> empl_tasca_unassigned;
 
-    public Tasca(int id_tasca, String descripcio, Date data_creacio, Date data_execusio, String estat, Map<String, LinkedList<Object>> empl_tasca_est) {
-        this.id_tasca = id_tasca;
-        this.descripcio = descripcio;
-        this.data_creacio = data_creacio;
-        this.data_execusio = data_execusio;
-        this.estat = estat;
-        this.empl_tasca_est = empl_tasca_est;
-    }
-    
     public Tasca(int id_tasca, String descripcio, Date data_creacio, Date data_execusio, String estat) {
         this.id_tasca = id_tasca;
         this.descripcio = descripcio;

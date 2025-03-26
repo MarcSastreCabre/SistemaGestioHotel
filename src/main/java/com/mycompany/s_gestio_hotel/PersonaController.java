@@ -302,7 +302,7 @@ public class PersonaController {
                     if(persones.getSelectionModel().getSelectedIndex() == -1){
                         arr = new ArrayList<>();
                     } else{
-                        Client c = model.getClient(persones.getSelectionModel().getSelectedItem());
+                        Client c = model.convertClient(persones.getSelectionModel().getSelectedItem());
                         if(c != null){
                             arr = c.getReserves();
                         }else {
@@ -348,7 +348,7 @@ public class PersonaController {
                     if(persones.getSelectionModel().getSelectedIndex() == -1){
                         arr = new ArrayList<>();
                     } else{
-                        Client c = model.getClient(persones.getSelectionModel().getSelectedItem());
+                        Client c = model.convertClient(persones.getSelectionModel().getSelectedItem());
                         if(c != null){
                             arr = c.getReserves();
                         }else {
@@ -439,7 +439,7 @@ public class PersonaController {
     private void afegirTasca() throws SQLException{
         Object t = tasquesNoSel.getSelectionModel().getSelectedItem();
         if(persona != null && persona.getClass() != Client.class && t != null && t.getClass() == Tasca.class){
-            Empleat e = model.getEmpleat(persona);
+            Empleat e = model.convertEmpleat(persona);
             Tasca tas = (Tasca) t;
             //e.getTasca_est().putIfAbsent("Pendent", new LinkedList<>());
             //e.getTasca_est().get("Pendent").add(tas);
@@ -501,11 +501,11 @@ public class PersonaController {
         if(o != null && o.getClass() == Tasca.class && (persona.getClass() == Empleat.class || persona.getClass() == ClientEmpleat.class)){
             System.out.println("Hola");
             Tasca t = (Tasca) o;
-            String estAct = model.getEmpleat(persona).pujarTasca(t, persona);
-            gd.modificarEmpleatTasca(model.getEmpleat(persona), t, estAct);
+            String estAct = model.convertEmpleat(persona).pujarTasca(t, persona);
+            gd.modificarEmpleatTasca(model.convertEmpleat(persona), t, estAct);
             gd.modificarEstatTasca(t);
         }
-        tasques.setItems(model.getEmpleat(persona).getTascaFiltObsList());
+        tasques.setItems(model.convertEmpleat(persona).getTascaFiltObsList());
     }
 
 }
