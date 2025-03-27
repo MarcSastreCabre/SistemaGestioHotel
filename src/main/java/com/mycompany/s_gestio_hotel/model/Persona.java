@@ -21,7 +21,7 @@ public class Persona {
     private Date data_naixement;
     private String email;
     private static int nextId = 0;
-
+    // la classe persona es la classe mara de les persones i empleats
     public Persona(int id_persona, String nom, String cognom, String adresa, String DNI, int telefon, Date data_naixement, String email) {
         this.id_persona = id_persona;
         this.nom = nom;

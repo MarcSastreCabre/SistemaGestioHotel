@@ -24,15 +24,12 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
+import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
 public class PersonaController {
     Model model;
     private static Object persona;
     GesitioDades gd = new GesitioDades();
-    //@FXML
-    /*private void switchToPrimary() throws IOException {
-        App.setRoot("inici");
-    }*/
     @FXML
     private TextField ID;
     @FXML
@@ -460,12 +457,27 @@ public class PersonaController {
             telefon.getText().isEmpty() ||
             data_naixement.getValue() == null ||
             email.getText().isEmpty()){
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setHeaderText(null);
+            alert.setTitle("Error dades!!!");
+            alert.setContentText("No s'han introduit/modificat be les dades");
+            alert.show(); 
                 return false;
         }
         if(!data_naixement.getValue().isBefore(LocalDate.now()) || (DNI.getText().length() != 9)){
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setHeaderText(null);
+            alert.setTitle("Error dades!!!");
+            alert.setContentText("No s'han introduit/modificat be les dades");
+            alert.show(); 
             return false;
         }
         if(model.isNotInt(ID.getText()) || model.isNotInt(telefon.getText())){
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setHeaderText(null);
+            alert.setTitle("Error dades!!!");
+            alert.setContentText("No s'han introduit/modificat be les dades");
+            alert.show(); 
             return false;
         }
          
@@ -478,6 +490,11 @@ public class PersonaController {
             data_registre.getValue() == null ||
             tip_client.getSelectionModel().getSelectedIndex() == -1 ||
             targeta_credit.getText().isEmpty()){
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setHeaderText(null);
+            alert.setTitle("Error dades!!!");
+            alert.setContentText("No s'han introduit/modificat be les dades");
+            alert.show(); 
                 return false;
         }
         return true;
@@ -489,6 +506,11 @@ public class PersonaController {
             data_contratacio.getValue() == null ||
             salariBrut.getText().isEmpty() ||
             estatLaboral.getText().isEmpty()){
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setHeaderText(null);
+            alert.setTitle("Error dades!!!");
+            alert.setContentText("No s'han introduit/modificat be les dades");
+            alert.show(); 
                 return false;
         }
         return true;

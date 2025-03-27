@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
@@ -83,6 +84,13 @@ public class FacturaController {
             gd.afegirFacturaReserva(reserva);
             metode_pagament.setDisable(true);
             crearFact.setVisible(false);
+        } else {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setHeaderText(null);
+            alert.setTitle("Error dades!!!");
+            alert.setContentText("No s'ha seleccionat un metode de pagament");
+            alert.show(); 
+            
         }
     }
     

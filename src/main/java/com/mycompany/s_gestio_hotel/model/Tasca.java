@@ -16,7 +16,7 @@ import java.util.Map;
  *
  * @author alumne
  */
-public class Tasca {// tornar a fer
+public class Tasca {// Aqui es el metode tasca, una tasca te diverses dades entre elles un mapa de empleats que t'informa dels empelats que treballen amb la tasca i el seu estat
     private int id_tasca;
     private String descripcio;
     private Date data_creacio;
@@ -25,7 +25,7 @@ public class Tasca {// tornar a fer
     private Map<String, LinkedList<Object>> empl_tasca_est;
     private static int nextId;
 
-    public Tasca(int id_tasca, String descripcio, Date data_creacio, Date data_execusio, String estat) {
+    public Tasca(int id_tasca, String descripcio, Date data_creacio, Date data_execusio, String estat) { // en cadada tasca creada guardo una dada que seria el id que tocaria, l'utilitzo en els controladors per obtindre ids automaticamnet
         this.id_tasca = id_tasca;
         this.descripcio = descripcio;
         this.data_creacio = data_creacio;
@@ -45,6 +45,7 @@ public class Tasca {// tornar a fer
     public Map getEmpl_tasca_est_valMap() {
         return empl_tasca_est;
     }
+    // el seguent et torna un arraylist de tots els empleats, s'utilitza en el iniciController
     public ArrayList<Object> getEmpl_tasca_est_val() {
         ArrayList<Object> ret = new ArrayList<>();
         for (Collection<Object> arr: empl_tasca_est.values()) {
@@ -52,6 +53,7 @@ public class Tasca {// tornar a fer
         }
         return ret;
     }
+    // quant vull obtindre el empleat amb el seu estat per devant genero una llista amb que ho nomera,
     public ArrayList<Object> getEmpl_tasca_est_val_est() {
         String[] estats = {"Finalitzat", "En curs", "Pendent"};
         ArrayList<Object> ret = new ArrayList<>();
@@ -63,31 +65,22 @@ public class Tasca {// tornar a fer
                 itemsEstats[i]++;
             }
         }
-        if(itemsEstats[1] != 0 || (itemsEstats[0] != 0 && itemsEstats[2] != 0)){
+        if(itemsEstats[1] != 0 || (itemsEstats[0] != 0 && itemsEstats[2] != 0)){// despres de tornar aquesta llista aprofito que he passat per 
             estat = estats[1];
         } else if(itemsEstats[2] != 0){
             estat = estats[2];
-        } else {
+        } else { 
             estat = estats[0];
         }
         return ret;
     }
-    
+    // poso la descripcio de la tasca com a de la tasca 
     @Override
     public String toString() {
         return descripcio;
     }
-    
+    // Aquest metode comprova si el empleat treballa en una tasca
     public boolean empleatWorkInTask(Object e){
-        /*String [] arr = {"Finalitzat", "En curs", "Pendent"};
-        for (String string : arr) {
-            if(empl_tasca_est.get(arr) != null && empl_tasca_est.get(arr).contains(e)){
-                return true;
-            }
-        }
-        return false;*/
-        
-        //return empl_tasca_est.values().contains(e);
         for (LinkedList<Object> value : empl_tasca_est.values()) {
             if(value.contains(e)){
                 return true;
@@ -95,11 +88,11 @@ public class Tasca {// tornar a fer
         }
         return false;
     }
-
+    // un seguit de geters i seters
     public int getId_tasca() {
         return id_tasca;
     }
-
+    
     public void setId_tasca(int id_tasca) {
         this.id_tasca = id_tasca;
     }
@@ -139,22 +132,12 @@ public class Tasca {// tornar a fer
     public void setEstat(String estat) {
         this.estat = estat;
     }
-    
-    public void reCalcularEstat(){
-        /*// Fer mes endevant
-        if(!empl_tasca_est.get("En curs").isEmpty()){
-            estat = "En curs";
-        } else if(empl_tasca_est.get("Finalitzat").isEmpty() ){
-            
-        }*/
-    }
-
     @Override
     public int hashCode() {
         int hash = 7;
         return hash;
     }
-
+    // el metode equals que per el id comprova si una tasca existeix
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -169,7 +152,7 @@ public class Tasca {// tornar a fer
         final Tasca other = (Tasca) obj;
         return this.id_tasca == other.id_tasca;
     }
-    
+    // comrpovo els empleats no seleccionats
     public LinkedList<Object> empleatsNoSeleccionats(){
         LinkedList<Object> e = new LinkedList<>(Model.getEmpleat().values());
         for (LinkedList<Object> value : empl_tasca_est.values()) {
@@ -180,7 +163,7 @@ public class Tasca {// tornar a fer
         }
         return e;
     }
-
+    // aqui modifico els atributs de la tasca, ( els altres no son modificables)
     public void modificarAtribusTasca(String descripcio, Date data_execusio) {
         this.descripcio = descripcio;
         this.data_execusio = data_execusio;

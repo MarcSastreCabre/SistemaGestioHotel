@@ -14,6 +14,7 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
@@ -143,6 +144,12 @@ public class TascaController {
                 dataExecucio.getValue() == null ||
                 estat.getSelectionModel().getSelectedIndex() == -1
                 ){
+             
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setHeaderText(null);
+            alert.setTitle("Error dades!!!");
+            alert.setContentText("No s'han introduit be les dades");
+            alert.show(); 
             return false;
         }
         return true;

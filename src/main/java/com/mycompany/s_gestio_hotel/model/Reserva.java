@@ -37,7 +37,7 @@ public class Reserva {
             lastIdReserva = this.id_reserva+1;
         }
     }   
-
+    // el tostring i un seguit de geters i seters
     @Override
     public String toString() {
         return "Reserva " +  id_reserva;
@@ -102,7 +102,7 @@ public class Reserva {
     public void setPreu_total_reserva(double preu_total_reserva) {
         this.preu_total_reserva = preu_total_reserva;
     }
-
+    // les reserves tenen una factura asociada
     public Factura getFactura() {
         return factura;
     }
@@ -143,25 +143,8 @@ public class Reserva {
             return false;
         }
         final Reserva other = (Reserva) obj;
-        if(this.id_reserva == other.id_reserva){
-            return true;
-        }
-        if(this.id_habitacio == other.id_habitacio){
-            /*if(this.data_fi.equals(other.data_fi) || this.data_inici.equals(other.data_inici)){
-                System.out.println("Falla en el 1");
-                return true;
-            } else if(!(this.data_fi.after(other.data_inici)|| this.data_fi.equals(other.data_inici))){
-                System.out.println("Falla en el 2");
-                return true;
-                
-            }else if(!(other.data_fi.after(this.data_inici)|| other.data_fi.equals(this.data_inici))){
-                System.out.println("Falla en el 3");
-                return true;
-            }*/
-        }
-        return false;
+        return this.id_reserva == other.id_reserva;
     }
-
     public static int getLastIdReserva() {
         return lastIdReserva;
     }

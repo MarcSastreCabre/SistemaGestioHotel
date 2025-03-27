@@ -19,6 +19,7 @@ import java.time.LocalDate;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.geometry.Point2D;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
@@ -238,6 +239,11 @@ public class ReservaController {
             return false;
         }
         if(!dataInici.getValue().isBefore(dataFi.getValue()) || dataReserva.getValue().isAfter(dataInici.getValue())){
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setHeaderText(null);
+            alert.setTitle("Error dades!!!");
+            alert.setContentText("No s'han introduit/modificat be les dades");
+            alert.show(); 
             return false;
         }
         
