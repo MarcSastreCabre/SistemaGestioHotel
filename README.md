@@ -1,2 +1,3 @@
 # Sistema de Gestió d’Hotel
-![Screenshot](resources/dissenybd.png)
+## Base de dades
+
