@@ -13,6 +13,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListView;
 
 public class IniciController {
+    // declaro les variables 
     Model model;
     @FXML
     private ListView llPersones;
@@ -29,7 +30,7 @@ public class IniciController {
     @FXML
     private Button filtarTasca;
     
-    
+    // quan vull treure les seleccions les trec i cargo les inicials
     @FXML
     private void treureSeleccions(){
         llPersones.setItems(null);
@@ -39,7 +40,7 @@ public class IniciController {
         llReserves.setItems(FXCollections.observableArrayList(model.getReserves()));
         llTasques.setItems(model.getTasquesListF());
     }
-    //GesitioDades gd = new GesitioDades();
+    //Gal inicialitzar cargo totes les dades necesaries
     public void initialize(){
         //gd.llistaUsuaris2();
         llPersones.setItems(FXCollections.observableArrayList(model.getPersones().values()));
@@ -49,6 +50,7 @@ public class IniciController {
         filtarReserva.setVisible(true);
         filtarTasca.setVisible(true);
     }
+    // per filtrar una persona selecciono la classe de els atributs corresponents que te i necesito filtrar
     public void filtrarPersona(){
         Object o = llPersones.getSelectionModel().getSelectedItem();
         if(o != null){
@@ -57,7 +59,7 @@ public class IniciController {
                 llTasques.setItems(null);
             } else if(o.getClass() == Empleat.class){
                 llReserves.setItems(null);
-                llTasques.setItems(FXCollections.observableArrayList(((Empleat) o).getTascaObsList()));//TODO es aqui que s'ha de fer que es filtri amb els nous metodes posats
+                llTasques.setItems(FXCollections.observableArrayList(((Empleat) o).getTascaObsList()));
                 //(Empleat) o).getReserves();
                 //llTasques.setItems(FXCollections.observableArrayList();
                 //llReserves.setItems(null);
@@ -69,11 +71,13 @@ public class IniciController {
             
         }
     }
+    // quan activo el filtrar automatic no cal que es seleccioni el boto
     public void filtrarPersontaAut(){
         if(filtratAut.isSelected()){
             filtrarPersona();
         }
     }
+    // per filtrar cada un dels elements
     public void filtrarReserva(){
         Object r = llReserves.getSelectionModel().getSelectedItem();
         if(r != null && r.getClass() == Reserva.class){
@@ -101,6 +105,7 @@ public class IniciController {
     public void injecta(Model obj) {
         model = obj;
     }
+    // per anar a cada una de les classes
     @FXML
     private void switchToPersona() throws IOException {
         App.setRoot("persona");
@@ -113,6 +118,7 @@ public class IniciController {
     private void switchToTasca() throws IOException {
         App.setRoot("tasca");
     }
+    // per editar
     @FXML
     private void editPersona() throws IOException {
         Object pers = llPersones.getSelectionModel().getSelectedItem();
@@ -140,6 +146,7 @@ public class IniciController {
             switchToTasca();
         }
     }
+    // per quan filtres automaticament s'oculti tot
     @FXML
     private void ocultarSelectors(){
         filtarPersona.setVisible(!filtratAut.isSelected());
