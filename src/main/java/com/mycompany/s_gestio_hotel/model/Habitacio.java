@@ -9,6 +9,7 @@ package com.mycompany.s_gestio_hotel.model;
  * @author alumne
  */
 public class Habitacio {
+    // en la habitacio solament creo les dades i faig geters i seters
     private int id_habitacio;
     private int numero_habitacio;
     private String tipus;
