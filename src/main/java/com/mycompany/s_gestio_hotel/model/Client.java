@@ -12,6 +12,7 @@ import java.sql.Date;
  * @author alumne
  */
 public class Client extends Persona{
+    // la classe client es un altre classe fill de la classe Persona, te diverses dades entre una llista de reserves.
     private int id_client;
     private Date data_registre;
     private String tipus_client;
@@ -25,11 +26,11 @@ public class Client extends Persona{
         this.tipus_client = tipus_client;
         this.targeta_credit = targeta_credit;
         this.reserves = reserves;
-        if(this.id_client >= nextIdC){
+        if(this.id_client >= nextIdC){ // el metode estatic nextIdC serveix per saver quin id tocaria
             nextIdC = this.id_client+1;
         }
     }
-
+    // aixó son diversos geters i seters
     public static int getNextIdC() {
         return nextIdC;
     }
@@ -80,7 +81,7 @@ public class Client extends Persona{
         return hash;
     }
 
-    @Override
+    @Override // i el metode equals permet reconeixer igual a un client, clientEmpleat, Empleat, Perosona si tenen el mateix id o dni
     public boolean equals(Object obj) {
         if (this == obj) {
             return true;
