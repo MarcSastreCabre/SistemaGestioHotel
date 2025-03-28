@@ -11,6 +11,7 @@ import java.sql.Date;
  * @author alumne
  */
 public class Reserva {
+    // Crido a les dades que necesito per la reserva
     private int id_reserva;
     private Date data_reserva;
     private Date data_inici;
@@ -130,7 +131,7 @@ public class Reserva {
         int hash = 7;
         return hash;
     }
-
+    // el override verifica que no hi hagi ninguna reserva igual amb el ID
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
