@@ -15,6 +15,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class GesitioDades {
+    // en aquesta classe em comunico amb la base de dades, utilitzo la de connecció per conectar-me i importo les dades afegint-les a model i conectant les classes entre si.
     Model model = new Model();
     public void llistaUsuaris() {
         String sql = "select * from Persona";
@@ -162,25 +163,12 @@ public class GesitioDades {
             
             ResultSet resultSet = ordre.executeQuery(sql);
             while (resultSet.next()) {
-                //int id_p = resultSet.getInt(1);
-                //(int id_tasca, String descripcio, Date data_creacio, Date data_execusio, String estat)
                 PreparedStatement ordreET = connection.prepareStatement(sqlET);
                 ordreET.setInt(1, resultSet.getInt(1));
                 ResultSet resultSetET = ordreET.executeQuery();
-                //ordreET.setInt(1, resultSet.getInt(1));
-                /*Map<String, LinkedList<Object>> estat_emp = new HashMap<>();
-                while (resultSetET.next()) {
-                    estat_emp.putIfAbsent(resultSetET.getString(2), new LinkedList<>());// si no esta ho creo i si no ho afegeixo a la llistad
-                    estat_emp.get(resultSetET.getString(2)).add(model.getPersones().get(resultSetET.getInt(1)));
-                    //model.getPersones().get(resultSetET.getInt(1));
-                    //Object nextElement = en.nextElement();
-                    
-                }*/
-                //System.out.println("Tamano tareas"+estat_emp.values().size());
                 Tasca t = new Tasca(resultSet.getInt(1), resultSet.getString(2), resultSet.getDate(3), resultSet.getDate(4), resultSet.getString(5)/*, estat_emp*/);
                 System.out.println("        Tasca "+ t);
                 model.getTasques().put(t.getId_tasca(), t);
-                //model.getTasques().get(t.getEstat()).add(t);
             }
 
             connection.close();
@@ -625,157 +613,3 @@ public class GesitioDades {
         return ok;
     }
 }
-
-/*
-    public boolean modificarUsuari(Usuari usuari) throws IOException, SQLException {
-        boolean ok = false;
-        // String sql = "UPDATE usuaris SET nom=?,dataNaixement=?,telefon=?,correu=? WHERE nif=?";
-        String sql = "UPDATE usuaris SET nom=?,dataNaixement=?,telefon=?,correu=?,imatge=? WHERE nif=?";
-
-        Connection connection = new Connexio().connecta();
-        try {
-            PreparedStatement ordre = connection.prepareStatement(sql);
-            ordre.setString(1, usuari.getNom());
-            ordre.setDate(2, Date.valueOf(usuari.getDataNaixement()));
-            ordre.setString(3, usuari.getTelefon());
-            ordre.setString(4, usuari.getCorreu());
-            ordre.setString(6, usuari.getNif());
-
-            Image ima = usuari.getImatgeJ();
-            if (ima != null) {
-                BufferedImage imagenB = SwingFXUtils.fromFXImage(ima, null);
-                ByteArrayOutputStream s = new ByteArrayOutputStream();
-                javax.imageio.ImageIO.write(imagenB, "jpg", s);
-
-                byte[] imaBytes = s.toByteArray();
-                Blob b = connection.createBlob();
-                b.setBytes(1, imaBytes);
-                System.out.println("imatge creada ");
-                ordre.setBlob(5, b);
-            } 
-
-            ordre.executeUpdate();
-            ok = true;
-            System.out.println("usuari modificat");
-        } catch (SQLException e) {
-            System.out.println("Error SQL:" + e.getMessage());
-        } finally {
-            try {
-                connection.close();
-            } catch (SQLException e) {
-                System.out.println("Error:" + e.getMessage());
-            }
-        }
-        return ok;
-    }
-
-    public boolean eliminarUsuari(Usuari usuari) {
-        boolean ok = false;
-        String sql = "DELETE FROM usuaris WHERE nif=?";
-        Connection connection = new Connexio().connecta();
-        try {
-            PreparedStatement ordre = connection.prepareStatement(sql);
-            ordre.setString(1, usuari.getNif());
-            ok = ordre.executeUpdate() > 0;
-        } catch (SQLException throwables) {
-            System.out.println("Error:" + throwables.getMessage());
-        }
-        return ok;
-    }
-
-    public boolean afegeixUsuari(Usuari usuari) throws SQLException, FileNotFoundException, IOException {
-        boolean ok = false;
-        Connection connection = new Connexio().connecta();
-        String sql = "INSERT INTO usuaris VALUES (?,?,?,?,?,?)";
-        PreparedStatement ordre = connection.prepareStatement(sql);
-        try {
-            ordre.setString(1, usuari.getNif());
-            ordre.setString(2, usuari.getNom());
-            ordre.setDate(3, Date.valueOf(usuari.getDataNaixement()));
-            ordre.setString(4, usuari.getTelefon());
-            ordre.setString(5, usuari.getCorreu());
-
-            Image ima = usuari.getImatgeJ();
-            BufferedImage imagenB = SwingFXUtils.fromFXImage(ima, null);
-
-            ByteArrayOutputStream s = new ByteArrayOutputStream();
-            javax.imageio.ImageIO.write(imagenB, "jpg", s);
-
-            byte[] imaBytes = s.toByteArray();
-            Blob b = connection.createBlob();
-            b.setBytes(1, imaBytes);
-            ordre.setBlob(6, b);
-            ordre.executeUpdate();
-            ok = true;
-
-        } catch (SQLException throwables) {
-            System.out.println("Error:" + throwables.getMessage());
-        }
-
-        return ok;
-    }
-
-
-
-    public Usuari consultarUsuari(String nif) {
-        Usuari usuari = null;
-        String sql = "select nif,nom, dataNaixement,telefon, correu, imatge from usuaris where nif=?";
-        Connection connection = new Connexio().connecta();
-        try {
-            PreparedStatement ordre = connection.prepareStatement(sql);
-            ordre.setString(1, nif);
-            ResultSet resultSet = ordre.executeQuery();
-            if (resultSet.next()) {
-                usuari = new Usuari(
-                        resultSet.getString(1),
-                        resultSet.getString(2),
-                        resultSet.getDate(3),
-                        resultSet.getString(4),
-                        resultSet.getString(5),
-                        new Image(resultSet.getBlob(6).getBinaryStream())
-                );
-            }
-        } catch (SQLException e) {
-            System.out.println("Error SQL:" + e.getMessage());
-        } finally {
-            try {
-                connection.close();
-            } catch (SQLException e) {
-                System.out.println("Error:" + e.getMessage());
-            }
-        }
-        return usuari;
-    }
-
-
-
-
-    public void llistaUsuaris() {
-        //String ret = "";
-        String sql = "select * from Persona";
-        //String sql="select nom from usuaris";
-        Connexio dbc = new Connexio();
-        Connection connection = dbc.connecta();
-        if(connection == null){
-            System.out.println("BROOOOOO");
-        }
-        try {
-            Statement ordre = connection.createStatement();
-            ResultSet resultSet = ordre.executeQuery(sql);
-            while (resultSet.next()) {
-                for (int i = 1; i < 6; i++) {
-                    System.out.println(resultSet.getString(i));
-                    //ret+= resultSet.getString(i)+'\n';
-                }
-                //Persona p = new Persona(resultSet.getString(1), resultSet.getString(2), resultSet.getString(3), resultSet.getString(4), resultSet.getString(5), resultSet.getString(6), resultSet.getString(6), resultSet.getString(7));
-                Persona p = new Persona(resultSet.getInt(1), resultSet.getString(2), resultSet.getString(3), resultSet.getString(4), resultSet.getString(5), resultSet.getInt(6), resultSet.getDate(7), resultSet.getString(8));
-                
-            }
-
-            connection.close();
-
-        } catch (SQLException throwables) {
-            System.out.println("Error:" + throwables.getMessage());
-        }
-    }
-*/
