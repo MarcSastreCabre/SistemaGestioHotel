@@ -27,6 +27,7 @@ import javafx.scene.control.TextField;
  * @author alumne
  */
 public class TascaController {
+    //Declaro els elements fets servir
     GesitioDades gd = new GesitioDades();
     Model model;
     private static Tasca tasca;
@@ -48,13 +49,15 @@ public class TascaController {
     ListView tasques;
     @FXML
     ComboBox empleatsNoSel;
+    //aquest metode serveix per si vull editar directament el model
     public void injecta(Model obj) {
         model = obj;
     }
-
+    //El seguent metode serveix per injectar la tasca i cargar una ja creada
     public static void setTasca(Tasca tasca) {
         TascaController.tasca = tasca;
     }
+    //al inicialitzar cargo els elements necesaris, si he pasat una tasca crido el metode recargar tasca
     public void initialize(){
         id_tasca.setText(""+Tasca.getNextId());
         id_tasca.setEditable(false);
@@ -75,6 +78,7 @@ public class TascaController {
             
         }
     }
+    //el seguent metode serveix per cargar una tasca seleccionada
     private void reCargarTasca(){
         id_tasca.setText(""+tasca.getId_tasca());
         descripcio.setText(tasca.getDescripcio());
@@ -85,7 +89,7 @@ public class TascaController {
         //empleats.setItems(model.filtrarTascaOEmpleat(tasca.getEmpl_tasca_est()));
         empleatsNoSel.setItems(FXCollections.observableArrayList(tasca.empleatsNoSeleccionats()));
     }
-    
+    // amb aixo trec els atriviuts
     private void netejarTasca(){
         id_tasca.setText(""+Tasca.getNextId());
         descripcio.clear();
@@ -97,15 +101,19 @@ public class TascaController {
         //empleats.setItems(FXCollections.observableArrayList(tasca.getEmpl_tasca_est_val_est()));// s'ha de modificar perque surti els empleats que han completat la tasca per ordre
         //empleats.setItems(model.filtrarTascaOEmpleat(tasca.getEmpl_tasca_est()));
     }
+    //Aquest es el boto per anar al inici
     @FXML
     private void switchToInici() throws IOException {
         App.setRoot("inici");
         tasca = null;
     }
+    // Quan deselecciones un empleat neteges
     @FXML
     private void deseleccionar(){
+        tasca = null;
         netejarTasca();
     }
+    // i quan selecciones una al listview recargues i cambies el id
     @FXML
     private void seleccionarTasca(){
         if(tasques.getSelectionModel().getSelectedIndex() != -1){
@@ -113,6 +121,7 @@ public class TascaController {
             reCargarTasca();
         }
     }
+    // Per afegir un empleat afegeixo al empleat i afegeixo a la base de dades
     @FXML
     private void afegirEmpleat() throws SQLException{
         if(empleatsNoSel.getSelectionModel().getSelectedIndex() != -1){
@@ -122,7 +131,7 @@ public class TascaController {
             gd.afegeixEmpleatTasca(model.convertEmpleat(e), tasca, "Pendent");
         }
     }
-    
+    // Per pujar un empleat en la posiscio de la tasca també haig de modificar la base de ades i cambiar el empleat de llista de la tasca
     @FXML
     private void PujarEmpleat(){
         if(empleats.getSelectionModel().getSelectedIndex() != -1 ){
@@ -135,7 +144,7 @@ public class TascaController {
             }
         }
     }
-    
+    // per validar la tasca comprovo que els camps estiguin plens, si no afegeixo un error
     private boolean validarTasca(){
         if(
                 id_tasca.getText().isEmpty() ||
@@ -154,7 +163,7 @@ public class TascaController {
         }
         return true;
     }
-    
+    // quan creo una tasca haig recullo els metodes i els afegeixo a la base de dades
     @FXML
     private void crearEditarTasca() throws SQLException{
         if(validarTasca()){
