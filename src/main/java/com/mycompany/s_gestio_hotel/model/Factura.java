@@ -11,6 +11,7 @@ import java.sql.Date;
  * @author alumne
  */
 public class Factura {
+    // facrua es una classe basica sense molts cambis
     private int id_factura;
     private Date data_emisio;
     private String metode_pagament;
