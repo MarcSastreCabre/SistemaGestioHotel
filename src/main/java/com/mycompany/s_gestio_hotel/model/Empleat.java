@@ -18,6 +18,8 @@ import javafx.collections.ObservableList;
  *
  * @author alumne
  */
+
+// la classe empleat s'exen de la classe persona, te diverses dades entre elles un mapa de tasques amb el estat de cada una
 public class Empleat extends Persona {
     private int id_empleat;
     private String llocFeina;
@@ -26,32 +28,20 @@ public class Empleat extends Persona {
     private String estat_laboral;
     private static int nextIdE = 0;
     private Map<String, LinkedList<Tasca>> tasca_est;
-    // el control de tasques d'empleats es portara unicament des de tasques fent que amb una funcio puguis obtindre segons un empleat les el estat de els seves tasques
-    // el estat de la tasca es calculara segons el estat que tenen els empleats ó
-    /*private LinkedList<Integer> tasquesFetes;
-    private LinkedList<Integer> tasquesFentse;
-    private LinkedList<Integer> tasquesPerFer;*/
 
-    public Empleat(int id_empleat, String llocFeina, Date data_contratacio, int salari_brut, String estat_laboral,/* LinkedList<Integer> tasquesFetes, LinkedList<Integer> tasquesFentse, LinkedList<Integer> tasquesPerFer,*/ int id_persona, String nom, String cognom, String adresa, String DNI, int telefon, Date data_naixement, String email) {
+    public Empleat(int id_empleat, String llocFeina, Date data_contratacio, int salari_brut, String estat_laboral, int id_persona, String nom, String cognom, String adresa, String DNI, int telefon, Date data_naixement, String email) {
         super(id_persona, nom, cognom, adresa, DNI, telefon, data_naixement, email);
         this.id_empleat = id_empleat;
         this.llocFeina = llocFeina;
         this.data_contratacio = data_contratacio;
         this.salari_brut = salari_brut;
         this.estat_laboral = estat_laboral;
-        /*this.tasquesFetes = tasquesFetes;
-        this.tasquesFentse = tasquesFentse;
-        this.tasquesPerFer = tasquesPerFer;*/
-        if(this.id_empleat >= nextIdE){
+        if(this.id_empleat >= nextIdE){ // tinc la classe id per saber quin seria el seguent id que sera un mes del id mes alt
             nextIdE = this.id_empleat+1;
         }
         tasca_est = new HashMap<>();
     }
-
-    /*public LinkedList<LinkedList<Integer>> getTasques() {
-        return new LinkedList<>(Arrays.asList(tasquesFetes, tasquesFentse, tasquesPerFer));
-    }*/
-
+    
     public static int getNextIdE() {
         return nextIdE;
     }
@@ -63,12 +53,11 @@ public class Empleat extends Persona {
     public void setTasca_est(Map<String, LinkedList<Tasca>> tasca_est) {
         this.tasca_est = tasca_est;
     }
-    
+    // la seguent funció obten una llista de les tasques amb el seu estat
     public ObservableList<Tasca> getTascaObsList(){
         LinkedList<Tasca> t = new LinkedList<>();
         for (LinkedList<Tasca> value : tasca_est.values()) {
             t.addAll(value);
-            System.out.println("Hola");
         }
         return FXCollections.observableArrayList(t);
     }
@@ -86,6 +75,7 @@ public class Empleat extends Persona {
         }
         return FXCollections.observableArrayList(t);
     }
+    // diversos geters i seters
     public int getId_empleat() {
         return id_empleat;
     }
@@ -131,7 +121,7 @@ public class Empleat extends Persona {
         int hash = 3;
         return hash;
     }
-
+    // aquest es un metode per pujar la tasca la qual donada una tasca la puja tant a tasca com al empleat
     public String pujarTasca(Tasca t, Object empl){// normalment es faria amb this pero com que tinc el client empleat ho haig de duplicar
         String[] estats = {"Pendent", "En curs", "Finalitzat"};
         int i = 0;
@@ -154,7 +144,7 @@ public class Empleat extends Persona {
         }
         return estats[i];
     }
-
+    // en el equals he agut de personalitzar-lo de forma que pugui donar que altres classes siguin iguals, com la client empleat
     @Override
     public boolean equals(Object obj) { // optimitzar
         if (this == obj) {
