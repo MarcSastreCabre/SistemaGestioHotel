@@ -12,6 +12,7 @@ import java.util.Objects;
  * @author alumne
  */
 public class Persona {
+    // declaro els atributs de persona
     private int id_persona;
     private String nom;
     private String cognom;
@@ -35,7 +36,7 @@ public class Persona {
             nextId = this.id_persona+1;
         }
     }
-
+    // fagi geters i seters
     public static int getNextId() {
         return nextId;
     }
@@ -109,6 +110,7 @@ public class Persona {
         int hash = 3;
         return hash;
     }
+    // en el equals el modifico per que comprovi si el objecte comparat es una instancia i en cas de que si pasar-ho a la classe mara (aquesta) i comprovar si es igual
     @Override
     public boolean equals(Object obj) { // quan son dos clients amb el mateix dni no es diferencia
         if (this == obj) {
@@ -124,7 +126,7 @@ public class Persona {
         return Objects.equals(this.DNI, other.DNI) || this.id_persona == other.id_persona;
     }
 
-    
+    // en el toString m'interesa mostrar el tipus de dada el id i el nom i cognom
     @Override
     public String toString() {
         return this.getClass().getSimpleName()+ " "+id_persona+" "+nom+" "+cognom;
