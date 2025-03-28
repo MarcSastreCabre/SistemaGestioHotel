@@ -24,6 +24,7 @@ import javafx.scene.input.GestureEvent;
  * @author alumne
  */
 public class FacturaController {
+    // Declaro els metodes corresponents
     Model model;
     private static Factura factura;
     private static Reserva reserva;
@@ -44,7 +45,7 @@ public class FacturaController {
     public void injecta(Model obj) {
         model = obj;
     }
-
+    // per afegir una factura o reserva ja seleccionada
     public static void setFactura(Factura factura) {
         FacturaController.factura = factura;
     }
@@ -52,7 +53,7 @@ public class FacturaController {
     public static void setReserva(Reserva reserva) {
         FacturaController.reserva = reserva;
     }
-    
+    // cargo alguns items al seleccionar
     public void initialize(){
         metode_pagament.setItems(FXCollections.observableArrayList("Targeta","Efectiu", "PayPal", "Transferencia"));
         if(factura != null){
@@ -73,6 +74,7 @@ public class FacturaController {
             //error
         }
     }
+    // per crear una facutra modificant la base de ades
     @FXML
     private void crearFactura() throws SQLException{
         if(reserva != null && metode_pagament.getSelectionModel().getSelectedIndex() != -1){
@@ -93,7 +95,7 @@ public class FacturaController {
             
         }
     }
-    
+    // per cambiar a reserva
     @FXML
     private void switchToReserva() throws IOException {
         App.setRoot("reserva");
