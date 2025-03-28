@@ -12,6 +12,7 @@ import java.util.Objects;
  * @author alumne
  */
 public class ClientEmpleat{
+    // La classe client empleat serveix per quant tens un client que també es empleat, es una classe que conte tant un client com empleat i gracies als metodes equals pot ser reconeguda com un empleat o client
     private Client client;
     private Empleat empleat;
 
