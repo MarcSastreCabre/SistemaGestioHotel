@@ -31,6 +31,7 @@ import javafx.scene.control.TextField;
  * @author alumne
  */
 public class ReservaController {
+    //declaro tots els elements de reserva
     Model model;
     private static Reserva reserva;
     @FXML
@@ -57,6 +58,7 @@ public class ReservaController {
     Button crear_gen_veu_fact; 
     @FXML 
     Button mk_edt_res;
+    // Inicialitzo els elements de client
     public void initialize(){
         client.setItems(FXCollections.observableArrayList(model.getClient().values()));// aixo s'aura de cambiar i actualitzar
         tipusReserva.setItems(FXCollections.observableArrayList("PM","AD"));
@@ -75,10 +77,11 @@ public class ReservaController {
     public void injecta(Model obj) {
         model = obj;
     }
+    // el metode serveix per injectar una reserva quan en vols visualitzar una
     public static void setReserva(Reserva r){
         reserva = r;
     }
-    
+    // serveix per recargar totes les reserves
     private void reCargarReserva() {
         reserves.getSelectionModel().select(reserva);
         crear_gen_veu_fact.setVisible(true);
@@ -109,12 +112,14 @@ public class ReservaController {
         tipus_iva.setText(""+reserva.getTipus_iva());
         habitacio.getSelectionModel().select(model.getHabitacions().get(reserva.getId_habitacio()));
     }
+    // quan vull treure la seleccio vorro tots els camps, deselecciono el item i poso la reserva com a nula
     @FXML
     private void treureSeleccio(){
         netejarCamps();
         reserves.getSelectionModel().select(null);
         reserva = null;
     }
+    // quan cambio client selecciono el client de la listview
     @FXML
     private void cambiarClient(){
         if(reserves.getSelectionModel().getSelectedIndex() != -1){
@@ -131,6 +136,7 @@ public class ReservaController {
             reCargarReserva();
         }
     }
+    // aquest metode neteja els camps
     private void netejarCamps(){
         id_reserva.setText(""+Reserva.getLastIdReserva());
         itemsDisable(false);
@@ -147,6 +153,7 @@ public class ReservaController {
         habitacio.getSelectionModel().select(null);
         //reserves.setItems(null);
     }
+    // quan poso una reserva que ja te factures desabilito tot i aixi conservo la integritat de la factura
     private void itemsDisable(boolean b){
         id_reserva.setDisable(b);
         //client.getSelectionModel().clearSelection();
@@ -159,20 +166,21 @@ public class ReservaController {
         habitacio.setDisable(b);
         //reserves.setItems(null);
     }
+    // funcio per anar al inici
     @FXML
     private void switchToInici() throws IOException {
         reserva = null;
         App.setRoot("inici");
         
     }
-    
+    // La seguent funcio es per anar al client seleccionat
     @FXML
     private void switchToClient() throws IOException {
         PersonaController.setPersona(client.getSelectionModel().getSelectedItem());
         reserva = null;
         App.setRoot("persona");
     }
-    
+    // per anar a facutra
     @FXML
     private void switchToFacturaAndCreateFact() throws IOException {
         if(reserva != null){
@@ -187,6 +195,7 @@ public class ReservaController {
             
         }
     }
+    // per crear o ediatar una reserva cambio / creo la reserva amb els camps introduits i modifico la base de ades
     @FXML
     private void crearEditarReserva() throws SQLException{
         if(validarReserva()){
@@ -224,7 +233,7 @@ public class ReservaController {
         }
     }
     
-    
+    // per validar una reserva, comprovo que tots els camps estan complerst i retorno una alerta
     private boolean validarReserva(){
         if(     
                 id_reserva.getText().isEmpty() ||  
@@ -249,7 +258,7 @@ public class ReservaController {
         
         return true;
     }
-    
+    // per calcular el preu, comrpovo els camps encesaris estan introduits i formato faig el calcul formatant perque quedi be
     @FXML
     private void calcularPreu(){
         if(     
