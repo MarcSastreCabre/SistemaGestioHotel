@@ -27,6 +27,7 @@ import java.util.LinkedList;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
 public class PersonaController {
+    //declaro tots els elements que faig servir
     Model model;
     private static Object persona;
     GesitioDades gd = new GesitioDades();
@@ -87,9 +88,9 @@ public class PersonaController {
     @FXML
     ComboBox tasquesNoSel;
          //initialize
+    // al inicialitzar completo tos els elements de la forma que els necesito
     public void initialize(){
         DNI.setEditable(true);
-        System.out.println("      ++++++++Initialize correcte");
         ID.setText(""+Persona.getNextId()); 
         id_client.setText(""+Client.getNextIdC()); 
         id_empleat.setText(""+Empleat.getNextIdE());
@@ -102,6 +103,7 @@ public class PersonaController {
         persones.setItems(FXCollections.observableArrayList(model.getPersones().values()));// optimitzar
         tip_client.setItems(FXCollections.observableArrayList("Regular", "VIP"));
         if(persona != null){
+            // si hi ha una perosna la cargo
             reCargarPerosna();
         }
         
@@ -109,11 +111,13 @@ public class PersonaController {
     public void injecta(Model obj) {
         model = obj;
     }
+    // per tornar al inici
     @FXML
     private void switchToInici() throws IOException {
         treureSeleccio();
         App.setRoot("inici");
     }
+    // per anar a reserva seleccionada d'un client
     @FXML
     private void switchToReserva() throws IOException {
         Reserva r = (Reserva) reserves.getSelectionModel().getSelectedItem();
@@ -122,6 +126,7 @@ public class PersonaController {
             App.setRoot("reserva");
         }
     }
+    // Per anar a una tasca seleccionada de un treballador
     @FXML
     private void switchToTasca() throws IOException {
         Tasca t = (Tasca) tasques.getSelectionModel().getSelectedItem();
@@ -130,10 +135,11 @@ public class PersonaController {
             App.setRoot("tasca");
         }
     }
-                                                    
+    // Per ingectar una persona quan vull cargar un element                                            
     public static void setPersona(Object persona) {
         PersonaController.persona = persona;
     }
+    //per treure les seleccions netejo tot
     @FXML
     private void treureSeleccio(){
         persona = null;
@@ -143,7 +149,7 @@ public class PersonaController {
         clearAtributsPersona();
         afg_mod_per.setText("Afegir");
     }
-    
+    // per recargar una persona cargo tots els elements
     private void reCargarPerosna(){
         DNI.setEditable(false);
             afg_mod_per.setText("Modificar");
@@ -182,7 +188,7 @@ public class PersonaController {
         persones.getSelectionModel().select(persona);
         
     }
-    
+    // La mecanica de CeckBox del empleat i del client
     @FXML
     private void selectCBEmpleat(){
         if (!CBempleat.isSelected()) {
@@ -214,7 +220,7 @@ public class PersonaController {
         //pagClient.setDisable(!CBclient.isSelected());
     }
     
-
+    // per quan selecciones una persona es carregui
     @FXML
     private void touchLVPersones(){
         Object p = persones.getSelectionModel().getSelectedItem();
@@ -223,10 +229,12 @@ public class PersonaController {
             reCargarPerosna();
         }
     }
+    //per recargar les pagines
     private void recargarPagines(){
         pagClient.setDisable(!CBclient.isSelected());
         pagEmpleat.setDisable(!CBempleat.isSelected());
     }
+    // per compleatar els atributs de una persona
     private void complearAtributsPersona(Persona p){
         ID.setText(""+p.getId_persona()); 
         nom.setText(p.getNom());
@@ -238,6 +246,7 @@ public class PersonaController {
         data_naixement.setValue(p.getData_naixement().toLocalDate());
         email.setText(p.getEmail());
     }
+    // i per netejar els seus camps
     private void clearAtributsPersona(){
         DNI.setEditable(true);
         ID.setText(""+Persona.getNextId()); 
@@ -249,6 +258,7 @@ public class PersonaController {
         data_naixement.setValue(null);
         email.clear();
     }
+    // per compleatar els atributs d'un client
     private void complearAtributsClient(Client c){
         id_client.setText(""+c.getId_client());
         data_registre.setValue(c.getData_registre().toLocalDate());
@@ -257,6 +267,7 @@ public class PersonaController {
         reserves.setItems(FXCollections.observableArrayList(c.getReserves()));
         
     }
+    // per netejar els seus camps
     private void clearAtributsClient(){
         id_client.setText(""+Client.getNextIdC());
         data_registre.setValue(LocalDate.now());
@@ -265,6 +276,7 @@ public class PersonaController {
         reserves.setItems(null);
         
     }
+    // per compleatar els atributs d'un empleat
     private void complearAtributsEmpleat(Empleat e){
         id_empleat.setText(""+e.getId_empleat());
         lloc_feina.setText(e.getLlocFeina());
@@ -275,6 +287,7 @@ public class PersonaController {
         tasquesNoSel.setItems(FXCollections.observableArrayList(e.tasquesNoSeleccionades()));
         
     }
+    // per netejar els seus camps
     private void clearAtributsEmpleat(){
         id_empleat.setText(""+Empleat.getNextIdE());
         lloc_feina.clear();
@@ -284,16 +297,10 @@ public class PersonaController {
         tasquesNoSel.setItems(model.getTasquesListF());
         
     }
+    // el seguit de linees es quan modifiques / crees una persona ja sigui client o empleat es crea la classe i es puja a la base de dades
     @FXML
     private void crearModificarPersona() throws SQLException{
-        System.out.println("        HOla");
-        
-        //if(persones.getSelectionModel().getSelectedIndex() == -1){
-            //Persona p = new Persona(Integer.parseInt(ID.getText()), nom.getText(), cognom.getText(), adresa.getText(), DNI.getText(), Integer.parseInt(telefon.getText()), Date.valueOf(data_naixement.getValue()), email.getText());
-            //Date.valueOf(LocalDate.MAX)
-            //System.out.println(p);
             if(validarDadesPersona()){
-                System.out.println("        HOla2");
                 if(CBclient.isSelected() && CBempleat.isSelected()){
                     ArrayList<Reserva> arr;
                     if(persones.getSelectionModel().getSelectedIndex() == -1){
@@ -305,7 +312,6 @@ public class PersonaController {
                         }else {
                             arr = new ArrayList<>();
                         }
-                        //arr = ((ClientEmpleat) persones.getSelectionModel().getSelectedItem()).getClient().getReserves();
                     }
                     
                     Client c = new Client(Integer.parseInt(id_client.getText()), Date.valueOf(data_registre.getValue()), tip_client.getSelectionModel().getSelectedItem().toString(), targeta_credit.getText(), Integer.parseInt(ID.getText()), nom.getText(), cognom.getText(), adresa.getText(), DNI.getText(), Integer.parseInt(telefon.getText()), Date.valueOf(data_naixement.getValue()), email.getText(), arr);
@@ -432,6 +438,7 @@ public class PersonaController {
             
         //}
     }
+    // per quan afegeixes una tasca
     @FXML
     private void afegirTasca() throws SQLException{
         Object t = tasquesNoSel.getSelectionModel().getSelectedItem();
@@ -447,6 +454,7 @@ public class PersonaController {
             
         }
     }
+    // per validar les ades 
     private boolean validarDadesPersona(){// mes endevant ser mes complet i estricte
         if(
             ID.getText().isEmpty() ||
@@ -516,6 +524,7 @@ public class PersonaController {
         return true;
         
     }
+    // per pujar una tasca de nivell
     @FXML
     private void pujarTasca(){
         Object o = tasques.getSelectionModel().getSelectedItem();
