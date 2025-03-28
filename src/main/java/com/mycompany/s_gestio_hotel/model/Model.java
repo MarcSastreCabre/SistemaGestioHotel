@@ -19,6 +19,7 @@ import javafx.collections.ObservableList;
  * @author alumne
  */
 public class Model {
+    // En la classe model guardo totes les dades, creo un mapa de persones, clients, empleats, habitacions, reserves, tasques i accedire a elles a partir del model
     private static Map<Integer,Object> persones = new HashMap<>();
     private static Map<Integer,Object> client = new HashMap<>();
     private static Map<Integer,Object> empleat = new HashMap<>();
@@ -26,14 +27,14 @@ public class Model {
     private static ArrayList<Reserva> reserves = new ArrayList<>();
     private static GesitioDades gd = new GesitioDades();
     private static Map<Integer, Tasca> tasques = new HashMap<>();
-    public void inicialitzar(){
+    public void inicialitzar(){ // cuan llisto les persones accedeixo a la gestio de dades i crido a tot
         //gd.llistaUsuaris2();
         gd.llistaUsuaris();
         gd.llistarTasques();
         gd.llistarHabitacions();
         gd.llistarTasquesEmpleat();
     }
-    
+    // geters per els mapas
     public static ArrayList<Reserva> getReserves() {
         return reserves;
     }
@@ -56,13 +57,13 @@ public class Model {
 
     
 
-    
+    // per retornar / buscar / formatar diverses dades de les llistes e
     public static Collection getTasquesList() {
         return tasques.values();
     }
     public ObservableList<Object> getTasquesListF() {
         return FXCollections.observableArrayList(getTasquesList());
-    }
+    } 
     public ObservableList<Object> buscarClient(int id_client){
         for (Object persona : persones.values()) {
             int id;
@@ -107,7 +108,7 @@ public class Model {
         }
         return FXCollections.observableArrayList(retList);
     }
-    
+    // per combertir un Objecte persona, empleat, o ClientEmpleat a empleat i lo mateix amb client
     public Empleat convertEmpleat(Object o){
         if(Empleat.class == o.getClass()){
             return (Empleat) o;
@@ -125,6 +126,7 @@ public class Model {
         }
         return null;
     }
+    // per comprovar si donara error al combertir a enter
     public boolean isNotInt(String s){
         for (int i = 0; i < s.length(); i++) {
             char n = s.charAt(i);
