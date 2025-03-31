@@ -3,6 +3,7 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -26,7 +27,7 @@
       <Text layoutX="50.0" layoutY="484.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Preu total" />
       <TextField fx:id="preu_total" editable="false" layoutX="132.0" layoutY="467.0" />
       <Text layoutX="50.0" layoutY="558.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Habitacio" />
-      <Button fx:id="crear_gen_veu_fact" layoutX="494.0" layoutY="522.0" mnemonicParsing="false" onAction="#switchToFacturaAndCreateFact" text="Crear reserva / " />
+      <Button fx:id="crear_gen_veu_fact" layoutX="479.0" layoutY="633.0" mnemonicParsing="false" onAction="#switchToFacturaAndCreateFact" text="Crear reserva / " />
       <ComboBox fx:id="client" layoutX="434.0" layoutY="98.0" onAction="#cambiarClient" prefWidth="150.0" />
       <ComboBox fx:id="habitacio" layoutX="140.0" layoutY="541.0" onAction="#calcularPreu" prefWidth="150.0" />
       <ComboBox fx:id="tipusReserva" layoutX="143.0" layoutY="356.0" onAction="#calcularPreu" prefWidth="150.0" />
@@ -34,6 +35,15 @@
       <Button layoutX="434.0" layoutY="62.0" mnemonicParsing="false" onAction="#switchToClient" text="Visualitzar client" />
       <Button layoutX="67.0" layoutY="22.0" mnemonicParsing="false" onAction="#switchToInici" text="Inici" />
       <Button layoutX="686.0" layoutY="304.0" mnemonicParsing="false" onAction="#treureSeleccio" text="Treure Seleccio" />
-      <Button fx:id="mk_edt_res" layoutX="395.0" layoutY="635.0" mnemonicParsing="false" onAction="#crearEditarReserva" text="Crear / Editar reserva" />
+      <Button fx:id="mk_edt_res" layoutX="275.0" layoutY="633.0" mnemonicParsing="false" onAction="#crearEditarReserva" text="Crear / Editar reserva" />
+      <ComboBox fx:id="servei" layoutX="342.0" layoutY="429.0" onAction="#calcularPeruServei" prefWidth="150.0" />
+      <Label layoutX="503.0" layoutY="398.0" text="Quantitat" />
+      <TextField fx:id="quantitat" layoutX="503.0" layoutY="429.0" onKeyReleased="#calcularPeruServei" prefHeight="24.0" prefWidth="103.0" />
+      <Button fx:id="afegirServei" layoutX="555.0" layoutY="473.0" mnemonicParsing="false" onAction="#contrartarServei" text="Afegir" />
+      <TextField fx:id="preu" layoutX="384.0" layoutY="473.0" prefHeight="24.0" prefWidth="159.0" />
+      <Text layoutX="340.0" layoutY="490.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Preu:" />
+      <Label layoutX="342.0" layoutY="406.0" text="Servei" />
+      <ListView fx:id="serveis" layoutX="632.0" layoutY="377.0" prefHeight="200.0" prefWidth="200.0" />
+      <Label layoutX="631.0" layoutY="352.0" text="Serveis" />
    </children>
 </AnchorPane>

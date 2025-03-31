@@ -10,6 +10,7 @@ import com.mycompany.s_gestio_hotel.model.Model;
 import com.mycompany.s_gestio_hotel.model.Reserva;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.text.DecimalFormat;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -33,7 +34,7 @@ public class FacturaController {
     @FXML
     DatePicker data_emissio;
     @FXML 
-    TextField base_imposable;
+    TextField preuReserva;
     @FXML
     TextField iva;
     @FXML
@@ -42,6 +43,10 @@ public class FacturaController {
     ComboBox metode_pagament;
     @FXML
     Button crearFact;
+    @FXML
+    TextField PreuServeis;
+    @FXML
+    TextField VaseImposable;
     public void injecta(Model obj) {
         model = obj;
     }
@@ -55,13 +60,17 @@ public class FacturaController {
     }
     // cargo alguns items al seleccionar
     public void initialize(){
+        DecimalFormat df = new DecimalFormat("#.##");
         metode_pagament.setItems(FXCollections.observableArrayList("Targeta","Efectiu", "PayPal", "Transferencia"));
         if(factura != null){
             id_factura.setText(""+factura.getId_factura());
             data_emissio.setValue(factura.getData_emisio().toLocalDate());
-            base_imposable.setText(""+factura.getBaseimposable());
+            preuReserva.setText(""+factura.getBaseimposable());
             iva.setText(""+factura.getIva());
-            total.setText(""+factura.getTotal());
+            System.out.println("                            Valor reserva       "+reserva.getPreuServeis());
+            PreuServeis.setText(""+reserva.getPreuServeis());
+            VaseImposable.setText(""+(reserva.getPreuServeis()+factura.getBaseimposable()));
+            total.setText(""+df.format((Double) (reserva.getPreuServeis()+factura.getBaseimposable())*1.21f));
             metode_pagament.getSelectionModel().select(factura.getMetode_pagament());
             if(factura.getMetode_pagament() != null){
                 metode_pagament.setDisable(true);

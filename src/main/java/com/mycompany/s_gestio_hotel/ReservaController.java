@@ -11,11 +11,14 @@ import com.mycompany.s_gestio_hotel.model.GesitioDades;
 import com.mycompany.s_gestio_hotel.model.Habitacio;
 import com.mycompany.s_gestio_hotel.model.Model;
 import com.mycompany.s_gestio_hotel.model.Reserva;
+import com.mycompany.s_gestio_hotel.model.Servei;
+import com.mycompany.s_gestio_hotel.model.ServeisContractats;
 import java.io.IOException;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.time.LocalDate;
+import java.util.LinkedList;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.geometry.Point2D;
@@ -33,6 +36,7 @@ import javafx.scene.control.TextField;
 public class ReservaController {
     //declaro tots els elements de reserva
     Model model;
+    GesitioDades gd = new GesitioDades();
     private static Reserva reserva;
     @FXML
     TextField id_reserva;
@@ -58,16 +62,30 @@ public class ReservaController {
     Button crear_gen_veu_fact; 
     @FXML 
     Button mk_edt_res;
+    
+    @FXML 
+    ComboBox servei;
+    @FXML
+    TextField preu;
+    @FXML
+    TextField quantitat;
+    @FXML
+    ListView serveis;
+    @FXML
+    Button afegirServei;
     // Inicialitzo els elements de client
     public void initialize(){
         client.setItems(FXCollections.observableArrayList(model.getClient().values()));// aixo s'aura de cambiar i actualitzar
         tipusReserva.setItems(FXCollections.observableArrayList("PM","AD"));
         habitacio.setItems(FXCollections.observableArrayList(model.getHabitacions().values()));
         //crear_gen_veu_fact.setText("Generar Factura");
+        tipus_iva.setText("21");
+        tipus_iva.setEditable(false);
         crear_gen_veu_fact.setVisible(false);
         mk_edt_res.setText("Crear");
         mk_edt_res.setVisible(true);
         itemsDisable(false);
+        servei.setItems(FXCollections.observableArrayList(Model.getServeis().values()));
         id_reserva.setText(""+Reserva.getLastIdReserva());
         if(reserva != null){
             reCargarReserva();
@@ -111,6 +129,7 @@ public class ReservaController {
         preu_total.setText(""+reserva.getPreu_total_reserva());
         tipus_iva.setText(""+reserva.getTipus_iva());
         habitacio.getSelectionModel().select(model.getHabitacions().get(reserva.getId_habitacio()));
+        serveis.setItems(FXCollections.observableArrayList(reserva.getServeisFormat()));
     }
     // quan vull treure la seleccio vorro tots els camps, deselecciono el item i poso la reserva com a nula
     @FXML
@@ -148,7 +167,7 @@ public class ReservaController {
         dataInici.setValue(null);
         dataFi.setValue(null);
         tipusReserva.getSelectionModel().clearSelection();
-        tipus_iva.clear();
+        tipus_iva.setText("21");
         preu_total.clear();
         habitacio.getSelectionModel().select(null);
         //reserves.setItems(null);
@@ -164,6 +183,10 @@ public class ReservaController {
         tipus_iva.setDisable(b);
         preu_total.setDisable(b);
         habitacio.setDisable(b);
+        quantitat.setDisable(b);
+        servei.setDisable(b);
+        preu.setDisable(b);
+        afegirServei.setDisable(b);
         //reserves.setItems(null);
     }
     // funcio per anar al inici
@@ -186,6 +209,8 @@ public class ReservaController {
         if(reserva != null){
             if(reserva.getFactura() != null){
                 FacturaController.setFactura(reserva.getFactura());
+                System.out.println(reserva.getPreuServeis());
+                FacturaController.setReserva(reserva);
                 App.setRoot("factura");
             } else{                        //(int id_factura, Date data_emisio, String metode_pagament, double baseimposable, int iva, double total)
                 FacturaController.setFactura(new Factura(reserva.getId_reserva(), Date.valueOf(LocalDate.now()), null, Double.parseDouble(preu_total.getText().replace(",", "."))/1+Integer.parseInt(tipus_iva.getText()), Integer.parseInt(tipus_iva.getText()), Double.parseDouble(preu_total.getText().replace(",", "."))));
@@ -199,13 +224,12 @@ public class ReservaController {
     @FXML
     private void crearEditarReserva() throws SQLException{
         if(validarReserva()){
-            GesitioDades gd = new GesitioDades();
             Client c = model.convertClient(client.getSelectionModel().getSelectedItem());
             Habitacio h = (Habitacio) habitacio.getSelectionModel().getSelectedItem();
                     
             
             //(int id_reserva, Date data_reserva, Date data_inici, Date data_fi, String tipus_reserva, int tipus_iva, double preu_total_reserva, int id_client, Factura factura)
-            Reserva r = new Reserva(Integer.parseInt(id_reserva.getText()), Date.valueOf(dataReserva.getValue()), Date.valueOf(dataInici.getValue()), Date.valueOf(dataFi.getValue()), tipusReserva.getSelectionModel().getSelectedItem().toString(), Integer.parseInt(tipus_iva.getText()), Double.parseDouble(preu_total.getText().replace(",", ".")), c.getId_client(), h.getId_habitacio(), null);
+            Reserva r = new Reserva(Integer.parseInt(id_reserva.getText()), Date.valueOf(dataReserva.getValue()), Date.valueOf(dataInici.getValue()), Date.valueOf(dataFi.getValue()), tipusReserva.getSelectionModel().getSelectedItem().toString(), Integer.parseInt(tipus_iva.getText()), Double.parseDouble(preu_total.getText().replace(",", ".")), c.getId_client(), h.getId_habitacio(), null, new LinkedList<>());
             //c.getReserves().add(r);
             if(!model.getReserves().contains(r)){
                 if(reserves.getSelectionModel().getSelectedIndex() != -1){
@@ -283,6 +307,28 @@ public class ReservaController {
             preu_total.setText(""+df.format(preuNit*dias*ivaDouble));
         } else {
             preu_total.clear();
+        }
+    }
+    @FXML
+    private void calcularPeruServei(){
+        if(!(quantitat.getText().isEmpty() || servei.getSelectionModel().getSelectedIndex() == -1) && !model.isNotInt(quantitat.getText()) && reserva != null){
+            Servei s = (Servei) servei.getSelectionModel().getSelectedItem();
+            preu.setText(""+(s.getPreu()*Integer.parseInt(quantitat.getText())));
+        } else {
+            preu.clear();
+        }    
+    }
+    @FXML
+    private void contrartarServei() throws SQLException{
+        if(!preu.getText().isEmpty() && reserva != null){
+            Servei s = (Servei) servei.getSelectionModel().getSelectedItem();
+            ServeisContractats sc = new ServeisContractats(s, Integer.parseInt(quantitat.getText()), Double.parseDouble(preu.getText().replace(",", ".")));
+            reserva.getServeis().add(sc);
+            serveis.setItems(FXCollections.observableArrayList(reserva.getServeisFormat()));
+            quantitat.clear();
+            servei.getSelectionModel().select(null);
+            preu.clear();
+            gd.afegeixServeiReserva(sc, reserva.getId_reserva());
         }
     }
     

@@ -27,8 +27,10 @@ public class Model {
     private static ArrayList<Reserva> reserves = new ArrayList<>();
     private static GesitioDades gd = new GesitioDades();
     private static Map<Integer, Tasca> tasques = new HashMap<>();
+    private static Map<Integer, Servei> serveis = new HashMap<>();
     public void inicialitzar(){ // cuan llisto les persones accedeixo a la gestio de dades i crido a tot
         //gd.llistaUsuaris2();
+        gd.llistarServei();
         gd.llistaUsuaris();
         gd.llistarTasques();
         gd.llistarHabitacions();
@@ -55,8 +57,11 @@ public class Model {
         return tasques;
     }
 
-    
+    public static Map<Integer, Servei> getServeis() {
+        return serveis;
+    }
 
+    
     // per retornar / buscar / formatar diverses dades de les llistes e
     public static Collection getTasquesList() {
         return tasques.values();

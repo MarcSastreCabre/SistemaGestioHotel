@@ -91,7 +91,7 @@ public class GesitioDades {
                     f = llistarFactura(id_fact);
                 }
                 //System.out.println("    Factura "+f.getId_factura());
-                Reserva r = new Reserva(resultSet.getInt(1), resultSet.getDate(2), resultSet.getDate(3), resultSet.getDate(4), resultSet.getString(5), resultSet.getInt(6), resultSet.getDouble(7), resultSet.getInt(8), resultSet.getInt(9), f);
+                Reserva r = new Reserva(resultSet.getInt(1), resultSet.getDate(2), resultSet.getDate(3), resultSet.getDate(4), resultSet.getString(5), resultSet.getInt(6), resultSet.getDouble(7), resultSet.getInt(8), resultSet.getInt(9), f, llistarServeiContractat(resultSet.getInt(1)));
                 arrRes.add(r);
                 model.getReserves().add(r);
             }
@@ -141,6 +141,28 @@ public class GesitioDades {
             Logger.getLogger(GesitioDades.class.getName()).log(Level.SEVERE, null, ex);
         }
         return ret;
+    }
+
+    
+    public LinkedList<ServeisContractats> llistarServeiContractat(int id_res){
+        LinkedList<ServeisContractats> scList = new LinkedList<>();
+        String sql ="SELECT * FROM reservaServei where id_reserva = ?";
+        Connexio dbc = new Connexio();
+        Connection connection = dbc.connecta();
+        try {
+            PreparedStatement ordre = connection.prepareStatement(sql);
+            ordre.setInt(1, id_res);
+            ResultSet resultSet = ordre.executeQuery();
+            while(resultSet.next()){
+                ServeisContractats sc = new ServeisContractats(model.getServeis().get(resultSet.getInt(1)),resultSet.getInt(4), resultSet.getDouble(3));
+                scList.add(sc);
+            }
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(GesitioDades.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        //System.out.println("        scList lenth"+scList.size());
+        return scList;
     }
     //public LinkedList<LinkedList<Tasca>>
     
@@ -199,6 +221,32 @@ public class GesitioDades {
                 System.out.println("        Tasca "+t+"     Empleat     "+e);
                 t.getEmpl_tasca_est().get(resultSet.getString(3)).add(e);
                 model.convertEmpleat(e).getTasca_est().get(resultSet.getString(3)).add(t);
+            }
+
+            connection.close();
+
+        } catch (SQLException throwables) {
+            System.out.println("Error:" + throwables.getMessage());
+        }
+    }
+    
+    
+    
+    public void llistarServei(){
+        ArrayList<Reserva> arrRes = new ArrayList<>();
+        String sql ="SELECT * FROM serveis_complementaris";
+        Connexio dbc = new Connexio();
+        Connection connection = dbc.connecta();
+        if(connection == null){
+            System.out.println("Error");
+        }
+        try {
+            Statement ordre = connection.createStatement();
+            ResultSet resultSet = ordre.executeQuery(sql);
+            while (resultSet.next()) {
+                //Habitacio h = new Habitacio(resultSet.getInt(1), resultSet.getInt(2), resultSet.getString(3), resultSet.getInt(4), resultSet.getDouble(5), resultSet.getDouble(6), resultSet.getString(7), resultSet.getString(8));
+                Servei s = new Servei(resultSet.getInt(1), resultSet.getString(2), resultSet.getString(3), resultSet.getInt(4));
+                model.getServeis().put(s.getId_servei(), s);
             }
 
             connection.close();
@@ -367,6 +415,29 @@ public class GesitioDades {
         return ok;
     }
     
+    
+    public boolean afegeixServeiReserva(ServeisContractats sc, int id_reserva) throws SQLException {
+        boolean ok = false;
+        Connection connection = new Connexio().connecta();
+         	//idServei 	id_reserva 	preuTotal 	quantitat 	
+        String sql = "INSERT INTO reservaServei VALUES (?,?,?,?)";
+        PreparedStatement ordre = connection.prepareStatement(sql);
+        try {
+            ordre.setInt(1, sc.getS().getId_servei());
+            ordre.setInt(2, id_reserva);
+            ordre.setDouble(3, sc.getPreuTotal());
+            ordre.setInt(4, sc.getQuantitat());
+            
+            ordre.executeUpdate();
+            ok = true;
+
+        } catch (SQLException throwables) {
+            System.out.println("Error:" + throwables.getMessage());
+        }
+
+        return ok;
+    }
+    
     public boolean modificarPersona(Persona p){
         boolean ok = false;
         String sql = "UPDATE Persona SET nom=?,cognom=?,adresa=?,telefon=?,data_naixement=?,email=? where id_persona=?";
@@ -513,7 +584,7 @@ public class GesitioDades {
             }
         }
                 return ok;
-    }      
+    }    
     public boolean modificarEmpleatTasca(Empleat em, Tasca t, String estat){
         boolean ok = false;
         String sql = "UPDATE Empleat_Tasca SET estat =? where id_empleat=? and id_tasca=?";

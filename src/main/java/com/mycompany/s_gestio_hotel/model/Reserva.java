@@ -5,6 +5,7 @@
 package com.mycompany.s_gestio_hotel.model;
 
 import java.sql.Date;
+import java.util.LinkedList;
 
 /**
  *
@@ -23,7 +24,8 @@ public class Reserva {
     private Factura factura;
     private int id_habitacio;
     private static int lastIdReserva = 0;
-    public Reserva(int id_reserva, Date data_reserva, Date data_inici, Date data_fi, String tipus_reserva, int tipus_iva, double preu_total_reserva, int id_client, int id_habitacio, Factura factura) {
+    private LinkedList<ServeisContractats> serveis;
+    public Reserva(int id_reserva, Date data_reserva, Date data_inici, Date data_fi, String tipus_reserva, int tipus_iva, double preu_total_reserva, int id_client, int id_habitacio, Factura factura, LinkedList<ServeisContractats> serveis) {
         this.id_reserva = id_reserva;
         this.data_reserva = data_reserva;
         this.data_inici = data_inici;
@@ -37,6 +39,7 @@ public class Reserva {
         if(this.id_reserva >= lastIdReserva){
             lastIdReserva = this.id_reserva+1;
         }
+        this.serveis = serveis;
     }   
     // el tostring i un seguit de geters i seters
     @Override
@@ -149,7 +152,37 @@ public class Reserva {
     public static int getLastIdReserva() {
         return lastIdReserva;
     }
-    
+
+    public LinkedList<ServeisContractats> getServeis() {
+        return serveis;
+    }
+    public int getNumServeis(){
+        int ret = 0;
+        for (ServeisContractats servei : serveis) {
+            ret += servei.getQuantitat();
+        }
+        return ret;
+    }
+    public double getPreuServeis(){
+        double ret = 0;
+        for (ServeisContractats servei : serveis) {
+            ret += servei.getPreuTotal();
+        }
+        return ret;
+    }
+
+    public LinkedList<Object> getServeisFormat() {
+        LinkedList<Object> ret = new LinkedList<>();
+        int serveisTotal = 0;
+        double peuTotal = 0;
+        for (ServeisContractats servei : serveis) {
+            serveisTotal++;
+            peuTotal += servei.getS().getPreu();
+            ret.add(servei);
+        }
+        ret.add("Serveis Totals: "+serveisTotal+" preu total"+peuTotal);
+        return ret;
+    }
     
     
     
