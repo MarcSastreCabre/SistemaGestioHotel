@@ -246,6 +246,66 @@ En la factura les dades ja estan autocomplaences menys el mètode de pagament qu
 
 ![imatge.png](resources/imatge%208.png)
 
+
+
 En les tasques veus diverses dades, entre elles els empleats assignats, amb l'estat en el qual porten la tasca, els empleats es poden afegir i l'estat es calcula depenent els empleats assignats.
 
 ![imatge.png](resources/imatge%209.png)
+
+
+## Mermaind de la pagina
+Aquest es un diagrama de la pagina afegit raderament d'entregar el projecte fet per la web gitdiagram.com, l'he afegit perqué m'ha semblat molt guai com ha quedat i ho he pogut integrar amb el redme pero no te res a veure amb la documentació
+
+```mermaid
+flowchart TD
+    %% Presentation Layer
+    subgraph "Presentation Layer"
+        UI["FXML Views"]:::presentation
+    end
+
+    %% Controller Layer
+    subgraph "Controller Layer"
+        Controllers["Controller Classes (FacturaController, IniciController, etc.)"]:::controller
+    end
+
+    %% Domain/Model Layer
+    subgraph "Domain/Model Layer"
+        Entities["Entity Models & Business Logic"]:::model
+        DataAccess["Data Access (Connexio & GesitioDades)"]:::dataAccess
+    end
+
+    %% Persistence Layer (SQL Database)
+    subgraph "Persistence Layer"
+        Database["SQL Database"]:::db
+    end
+
+    %% Build & Configuration Infrastructure
+    subgraph "Build & Configuration"
+        BuildPom["pom.xml"]:::build
+        BuildNb["nbactions.xml"]:::build
+    end
+
+    %% Connections
+    UI -->|"triggers"| Controllers
+    Controllers -->|"updates"| Entities
+    Entities -->|"syncs_with"| DataAccess
+    DataAccess -->|"queries"| Database
+    %% Note: Data synchronization is bidirectional
+    DataAccess -- "updates" --> Entities
+
+    %% Click Events
+    click UI "https://github.com/marcsastrecabre/sistemagestiohotel/tree/master/src/main/resources/com/mycompany/s_gestio_hotel/"
+    click Controllers "https://github.com/marcsastrecabre/sistemagestiohotel/tree/master/src/main/java/com/mycompany/s_gestio_hotel/"
+    click Entities "https://github.com/marcsastrecabre/sistemagestiohotel/tree/master/src/main/java/com/mycompany/s_gestio_hotel/model/"
+    click DataAccess "https://github.com/marcsastrecabre/sistemagestiohotel/tree/master/src/main/java/com/mycompany/s_gestio_hotel/model/"
+    click BuildPom "https://github.com/marcsastrecabre/sistemagestiohotel/blob/master/pom.xml"
+    click BuildNb "https://github.com/marcsastrecabre/sistemagestiohotel/blob/master/nbactions.xml"
+
+    %% Styles
+    classDef presentation fill:#add8e6,stroke:#000,stroke-width:1px;
+    classDef controller fill:#ffeb99,stroke:#000,stroke-width:1px;
+    classDef model fill:#c3f7c3,stroke:#000,stroke-width:1px;
+    classDef dataAccess fill:#f9cc9c,stroke:#000,stroke-width:1px;
+    classDef db fill:#d3d3d3,stroke:#000,stroke-width:1px;
+    classDef build fill:#d1c4e9,stroke:#000,stroke-width:1px;
+```
